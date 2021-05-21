@@ -8,6 +8,9 @@ import User from '../Pages/User';
 import Login from '../Pages/Login';
 import { AUTHENTICATE_OPTIONS } from './AuthenticateOptions';
 import { routes } from './RoutesList';
+import Users from "../Pages/Users";
+import NavBar from "../NavBar/NavBar";
+import Home from "../Pages/Home";
 
 function AppRouter() {
   const [authenticated, setAuthenticated] = useState(AUTHENTICATE_OPTIONS.NULL);
@@ -36,8 +39,11 @@ function AppRouter() {
     <div>
     </div>
     <Router>
+      <NavBar/>
       {authenticated === AUTHENTICATE_OPTIONS.NOT_AUTHENTICATED && (
         <Switch>
+          <Route path='/users' exact component = {Users}/>
+          <Route path='/' component = {Home}/>
           <Route path={routes.LOGIN} exact component={Login} />
           // ispitati je li Admin ili User, ako je rola Admin redirectati na Admin, else User. Izvuci to iz "me"
           // NOTE: liniju 44 treba izbrisati cim se zavrsi login, trenutno je tu zbog lakseg developanja, ali inace treba biti u not authenticated
@@ -50,6 +56,8 @@ function AppRouter() {
         // ispitati je li Admin ili User, ako je rola Admin redirectati na Admin, else User. Izvuci to iz "me"
           <Route path={routes.ROOT} exact component={User} />
           <Route render={() => <Redirect to={routes.ROOT} />} />
+          <Route path={routes.USERS} exact component = {Users}/>
+          <Route path={routes.HOME} component = {Home}/>
         </Switch>
       )}
     </Router>
