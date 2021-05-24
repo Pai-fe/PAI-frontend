@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from 'react-dom';
 import axios from "axios";
+import './Users.css';
 
 function Users() {
     /*
@@ -45,20 +46,38 @@ function Users() {
 
 
     return(
-        <div className='user'>
+
+
+
+        <div className='users'>
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
             <h1>Users</h1>
-            <table>
-                            <thead>
+            <a href="/add-user" class="border-shadow">
+            <span class="text-gradient">New User<i class="fas fa-user"></i></span>
+            </a>
+
+
+            <table class="table">
+                            <thead class="thead-dark">
                                 <tr>
-                                <th id="table-header">Email</th>
-                                <th id="table-header">Uloga</th>
+                                <th>Email</th>
+                                <th>Uloga</th>
+                                <th>Action</th>
                                 </tr>
                             </thead>
                             {allUsers.map(user =>
                                               <tbody>
                                                 <tr key={user.userId}>
-                                                    <th>{user.email}</th>
-                                                    <th>{user.uloga}</th>
+                                                    <td>{user.email}</td>
+                                                    <td>{user.uloga}</td>
+                                                    <td>
+                                                    <a href="#" class="btn update">
+                                                    <span class="text-gradient"><i class="fas fa-pencil-alt"></i></span>
+                                                    </a>
+                                                    <a class="btn delete">
+                                                    <span class="text-gradient"><i class="fas fa-times"></i></span>
+                                                    </a>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                             )}
