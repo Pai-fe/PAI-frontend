@@ -11,6 +11,7 @@ import { routes } from './RoutesList';
 import Users from "../Pages/Users";
 import NavBar from "../NavBar/NavBar";
 import Home from "../Pages/Home";
+import CreateUserForm from '../Users/CreateUserForm';
 
 function AppRouter() {
   const [authenticated, setAuthenticated] = useState(AUTHENTICATE_OPTIONS.NULL);
@@ -43,6 +44,7 @@ function AppRouter() {
       {authenticated === AUTHENTICATE_OPTIONS.NOT_AUTHENTICATED && (
         <Switch>
           <Route path='/users' exact component = {Users}/>
+          <Route path='/adduser' exact component = {CreateUserForm}/>
           <Route path='/' component = {Home}/>
           <Route path={routes.LOGIN} exact component={Login} />
           // ispitati je li Admin ili User, ako je rola Admin redirectati na Admin, else User. Izvuci to iz "me"
