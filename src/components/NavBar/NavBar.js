@@ -8,7 +8,6 @@ function NavBar() {
     const [sidebar, setSidebar] = useState(false)
 
     const showSidebar = () => {
-        console.log(sidebar)
         setSidebar(!sidebar)
     }
 

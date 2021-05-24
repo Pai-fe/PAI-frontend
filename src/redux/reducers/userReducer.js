@@ -1,9 +1,9 @@
-import { GET_ME } from "../actions/userActions";
+import { GET_ME, UPDATE_USER } from "../actions/userActions";
 
 const user = (
   state = {
     user: {},
-    me: {}
+    me: {},
   },
   { type, payload }
 ) => {
@@ -12,6 +12,11 @@ const user = (
       return {
         ...state,
         me: payload
+      };
+    case UPDATE_USER:
+      return {
+        ...state,
+        user: payload
       };
     default:
       return state;
