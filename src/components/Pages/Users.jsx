@@ -14,6 +14,10 @@ import InputComponent from '../Inputs/InputComponent';
 import EditUser from './EditUser';
 import { routes } from '../AppRouter/RoutesList';
 
+import './Users.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { FaTrash, FaEdit, FaPlus } from 'react-icons/fa';
+
 const screens = [
     "listView",
     "editView"
@@ -63,35 +67,42 @@ const Users = () => {
         <div className='user'>
             {screen === screens[0] && (
                 <>
-                    <h1>Users List View</h1>
-                    {users.map(user => (
-                        <div key={user?.email} style={{ width: '100%' }}>
-                            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                <p style={{ marginRight: '30px' }}>Email:</p>
-                                <p style={{ marginRight: '30px' }}>{user?.email}</p>
-                                <p style={{ marginRight: '30px' }}>Role:</p>
-                                <p style={{ marginRight: '30px' }}>{user?.uloga} </p>
-                                {currentUser?.uloga === "Admin" && (<InputComponent 
-                                    type='button'
-                                    onClick={() => {
-                                        setEditUser(user);
-                                        setScreen(screens[1]);
-                                    }}
-                                    value='EDIT USER'
-                                />)}
-                                {currentUser?.uloga === "Admin" && currentUser?.email !== user?.email && (<InputComponent 
-                                    type='button'
-                                    onClick={() =>onDelete(user?.email)}
-                                    value='DELETE USER'
-                                />)}
-                            </div>
-                        </div>
-                    ))}
-                    {currentUser?.uloga === "Admin" && (<InputComponent 
-                        type='button'
+                    {/* <h1>Users List View</h1> */}
+                    <table className="table">
+                        <thead className="thead-dark">
+                            <tr>
+                            <th>ID</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            {currentUser?.uloga === "Admin" && (<th>Edit</th>)}
+                            {currentUser?.uloga === "Admin" && (<th>Delete</th>)}
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {users.map(user => 
+                            <tr key={user.id}>
+                            <td>{user?.id}</td>
+                            <td>{user?.email}</td>
+                            <td>{user?.uloga}</td>
+                            {currentUser?.uloga === "Admin" && (<td><button 
+                                className='btn btn-link'
+                                onClick={() => {
+                                    setEditUser(user);
+                                    setScreen(screens[1]);
+                                }}
+                            ><FaEdit/></button></td>)}
+                            {currentUser?.uloga === "Admin" && currentUser?.email !== user?.email && (<td><button 
+                                className='btn btn-link'
+                                onClick={() =>onDelete(user?.email)}
+                            ><FaTrash/></button></td>)}
+                        </tr>
+                        )}
+                        </tbody>
+                    </table>
+                    {currentUser?.uloga === "Admin" && (<button 
+                        className='btn btn-success'
                         onClick={() => history.push(routes.CREATE_USER)}
-                        value='CREATE NEW USER'
-                    />)}
+                    ><FaPlus/>CREATE NEW USER</button>)}
                 </>
             )}
             {screen === screens[1] && (

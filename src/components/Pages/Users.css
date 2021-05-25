@@ -1,0 +1,39 @@
+.thead-dark{
+    background-color: black;
+    color: #f0a652;;
+}
+  
+.table{
+    margin: 0 auto;
+    max-width: 90%;
+}
+
+.user-component{
+    max-width: 90%;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+.table th:first-child{
+    border-radius:10px 0 0 0;
+}
+
+.table th:last-child{
+    border-radius:0 10px 0 0;
+}
+
+.table tbody tr:hover{
+    background-color: gainsboro;
+}
+
+.btn-link{
+    color: black !important;
+}   
+
+.user {
+    margin-top: 20px;
+}
+
+.btn-success{
+    margin: 20px 5%
+}
