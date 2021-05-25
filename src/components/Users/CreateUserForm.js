@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { FaThinkPeaks } from 'react-icons/fa';
 import './CreateUserForm.css';
+import Swal from 'sweetalert2'
 
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6ImVrcnNtYW5vdmkxQGV0Zi51bnNhLmJhIiwidWxvZ2EiOiJBZG1pbiJ9LCJpYXQiOjE2MjE4ODQ5NTksImV4cCI6MTYyMTk3MTM1OX0.G2BukwV6c-3daMf3m863WnBl8EINeCkwd6Ilw47ufq8';
 
@@ -61,6 +63,7 @@ class CreateUserForm extends React.Component {
     let nam = event.target.name;
     let val = event.target.value;
     this.setState({[nam]: val});
+    console.log(nam, val)
   }
 
   predaj = (event) => {
@@ -83,7 +86,15 @@ class CreateUserForm extends React.Component {
     var link = kreiram ? "https://si-projekat2.herokuapp.com/user/create" : "https://si-projekat2.herokuapp.com/user/update";
     fetch(link, requestOptions)
         .then(response => response.text())
-        .then(result => console.log(result))
+        .then(result => {
+          console.log(result);
+          Swal.fire(
+            'Good job!',
+            kreiram ? 'You successfully created a new user!' : 'You successfully edited the user!',
+            'success'
+          )
+          
+        })
         .catch(error => console.log('error', error));
 
     return false;
@@ -119,9 +130,9 @@ class CreateUserForm extends React.Component {
       </div>
 
       <p>Enter user role:</p>
-      <select name='role' onChange={this.myChangeHandler}>
-        <option selected value="Admin">Admin</option>
-        <option value="User">User</option>
+      <select name='role' onChange={this.myChangeHandler} value={this.state.role}>
+        <option key="Admin" name="Admin" value="Admin">Admin</option>
+        <option key="User" name="User" value="User" >User</option>
       </select>
 
 
