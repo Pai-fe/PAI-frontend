@@ -103,11 +103,11 @@ class CreateUserForm extends React.Component {
   render() {    
     return (
     <form>
-      <h1>Welcome {this.state.email} </h1>
+      <h1>Add new user {this.state.email} </h1>
 
       <br></br>
 
-      <p>Enter email:</p>
+      <p>Enter user email:</p>
       <div className="field">
       <input
         type='text'
