@@ -50,6 +50,8 @@ function AppRouter() {
           <Route path='/fa' exact component = {FAIndex}/>
           <Route path='/fa/create' exact component = {CreateFAForm}/>
           <Route path='/fa/edit/:id' exact component = {CreateFAForm}/>
+          <Route path='/edituser/:id/:email' exact component = {CreateUserForm}/>
+
 
           <Route path='/' component = {Home}/>
           <Route path={routes.LOGIN} exact component={Login} />

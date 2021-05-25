@@ -57,11 +57,11 @@ function Users() {
                             </thead>
                             {allUsers.map(user =>
                                               <tbody>
-                                                <tr key={user.userId}>
+                                                <tr key={user.id}>
                                                     <td>{user.email}</td>
                                                     <td>{user.uloga}</td>
                                                     <td>
-                                                    <a href="#" class="btn update">
+                                                    <a href={"/edituser/"+user.id+"/"+user.email} class="btn update">
                                                     <span class="text-gradient"><i class="fas fa-pencil-alt"></i></span>
                                                     </a>
                                                     <a class="btn delete">
