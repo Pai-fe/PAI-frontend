@@ -33,6 +33,7 @@ function NavBar() {
             path: '/fa',
             cName: 'nav-text'
         }
+
     ]
 
     return (

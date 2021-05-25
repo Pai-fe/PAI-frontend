@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow&display=swap');
+
+.users{
+    overflow: auto;
+}
+
+croot{
+--dark:#2b2d42;
+--light:#adb5bd;
+--border:#dee2e6;
+--border-btn:#2b2d42;
+}
+*{
+padding:0;
+margin:0;
+box-sizing:border-box;
+}
+a{
+text-decoration:none;
+font-family: 'Barlow', sans-serif;
+
+
+}
+container{
+max-width:1024px;
+margin:auto;
+}
+
+.border-shadow{
+border:1px solid var(--border-btn);
+box-shadow:1px 3px 10px #2b2d42;
+margin-left: 1115px;
+  margin-right: 30px;
+}
+
+.text-dark{
+color:var(--dark);
+}
+
+.inline{
+display:inline-block;
+}
+
+.text-light{
+color:var(--light)
+}
+#site-main{
+margin-top:6em;
+
+}
+table{
+margin-top:2em;
+border-spacing:0px;
+width:70%;
+ margin-left: auto;
+  margin-right: auto;
+
+}
+table td, table th{
+padding:.5em;
+vertical-align:top;
+text-align:center;
+border-top:1px solid #dee2e6
+
+}
+
+.table td>a.btn{
+padding:.3em 1em;
+font-size:1.1em;
+margin:0.2em;
+}
+users{
+ margin-left: auto;
+  margin-right: auto;
+}
+
+.table tr:hover{
+background-color:#B4D2E7;
+}
+.table .thead-dark th{
+color:#fff;
+background-color:#2b2d42;
+border-color:#322283e;
+}
+.users{
+align:center;
+}
+.text-gradient{
+-webkit-background-clip:text;
+background-clip:text;
+
+padding:10px;
+}
+.text{
+padding-top: 1000px;
+  padding-right: 18px;
+  padding-bottom: 50px;
+  padding-left: 20px;
+}
+i{
+  padding-left: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
