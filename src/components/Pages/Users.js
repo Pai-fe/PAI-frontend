@@ -49,9 +49,13 @@ function Users() {
 
 
 
+
         <div className='users'>
+
          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
             <h1>Users</h1>
+
             <a href="/add-user" class="border-shadow">
             <span class="text-gradient">New User<i class="fas fa-user"></i></span>
             </a>
