@@ -1,15 +1,21 @@
 import React from 'react';
 
+import './InputComponent.css';
+
 const InputComponent = ({ type, value, disabled, onChange, onClick }) => {
   const renderOnChangeInput = () => {
     return (
-      <input type={type} value={value} onChange={onChange} disabled={disabled}></input>
+     <div className='login-input'>
+        <input type={type} value={value} onChange={onChange} disabled={disabled}></input>
+     </div> 
     );
   }
 
   const renderOnClickInput = () => {
     return (
-      <input type={type} value={value} onClick={onClick} disabled={disabled}></input>
+      <div className='login-input'>
+        <input type={type} value={value} onClick={onClick} disabled={disabled}></input>
+      </div>
     );
   }
   return (

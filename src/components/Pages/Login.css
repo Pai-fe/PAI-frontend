@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100&display=swap');
+
+
+.login-div {
+    margin-top: 60px;
+    margin-left: 39.5%;
+    background-color: #f0a652;
+    width: 350px;
+    height: 295px;
+    border-radius: 15px; 
+    padding-top: 10px;
+    
+}
+
+.login-div > h1 {
+    font-family: Poppins;
+    font-weight: bold;
+    margin-left: 25px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    color:rgb(255, 255, 255);
+    
+}
+
+

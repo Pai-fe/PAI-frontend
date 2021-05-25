@@ -14,6 +14,8 @@ import { axiosHelperCall } from '../../helpers/axios.helper';
 import { CONFIG } from '../../helpers/config';
 import { routes } from '../AppRouter/RoutesList';
 
+import './Login.css'
+
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -23,7 +25,7 @@ const Login = () => {
 
   const [email, setEmail] = useState("ekrsmanovi1@etf.unsa.ba");
   const [password, setPassword] = useState("password");
-  const [buttonText] = useState("LOGIN");
+  const [buttonText] = useState("Login");
 
   const onChangeEmail = (event) => {
     //Email validation here
@@ -70,7 +72,8 @@ const Login = () => {
   }, [])
 
   return (
-    <div>
+    <div className='login-div'>
+      <h1>LOGIN</h1>
       <InputComponent 
         type="email"
         value={email}

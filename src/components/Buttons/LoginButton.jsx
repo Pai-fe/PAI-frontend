@@ -1,8 +1,9 @@
 import React from 'react';
+import './LoginButton.css'
 
 const LoginButton = ({ value, onClick }) => {
   return (
-    <input type="button" value={value} onClick={onClick}></input>
+    <input className='login-button' type="button" value={value} onClick={onClick}></input>
   );
 }
 
