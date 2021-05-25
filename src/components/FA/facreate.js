@@ -84,7 +84,7 @@ class CreateFAForm extends React.Component {
           .then(response => response.text())
           .then(result => {
               console.log(result)
-              alert(JSON.parse(result).message);
+              if(JSON.parse(result).message != undefined)alert(JSON.parse(result).message);
             })
           .catch(error => console.log('error', error));
   
