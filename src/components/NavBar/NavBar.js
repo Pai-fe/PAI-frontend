@@ -27,6 +27,11 @@ function NavBar() {
             title: 'Add user',
             path: '/adduser',
             cName: 'nav-text'
+        },
+        {
+            title: 'FA',
+            path: '/fa',
+            cName: 'nav-text'
         }
     ]
 
