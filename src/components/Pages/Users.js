@@ -43,7 +43,7 @@ function Users() {
             <h1>Users</h1>
 
             <a href="/adduser" class="border-shadow">
-            <span class="text-gradient">Kreiraj korisnika<i class="fas fa-user"></i></span>
+            <span class="text">Kreiraj korisnika<i class="fas fa-user"></i></span>
             </a>
 
 
