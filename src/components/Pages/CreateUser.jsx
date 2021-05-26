@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import swal from "sweetalert";
 
 //Store
 import { useDispatch, useSelector } from 'react-redux';
@@ -65,7 +66,15 @@ const CreateUser = () => {
         uloga: role
       }, {});
       // Show creation message
-      if(status === 200) history.push(routes.USERS);
+      if(status === 200) {
+        swal({
+          title: "Success!",
+          text: "You have successfully added a new user.",
+          icon: "success"
+        }).then(value => {
+          history.push(routes.USERS);
+        });
+      }
     } catch(e){
       console.log('TAG-ERROR','FAILED REQUEST AT CreateUser.jsx');
     }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
+import swal from "sweetalert";
 
 import { axiosHelperCall } from "../../helpers/axios.helper";
 import { CONFIG } from "../../helpers/config";
@@ -42,7 +43,15 @@ const FACreateView = () => {
         geotag: `${latitude},${longitude}`,
         tag: tag
       }, {});
-      if(status === 200) history.push(routes.FA_LIST_VIEW);
+      if(status === 200) {
+        swal({
+          title: "Success!",
+          text: "You have successfully added a new Feedback application definition.",
+          icon: "success"
+        }).then(value => {
+          history.push(routes.FA_LIST_VIEW);
+        });
+      }
     } catch(e){
       console.log('TAG-ERROR','FAILED REQUEST AT CreateUser.jsx');
     }
