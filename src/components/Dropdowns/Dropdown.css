@@ -1,4 +1,4 @@
-select{
+.select-dropdown {
     width: 300px;
     height: 35px;
     border-radius: 25px;
@@ -12,5 +12,4 @@ select{
     font-size: 12pt;
     margin-top: 15px;
     margin-left: 25px;
-    
   }

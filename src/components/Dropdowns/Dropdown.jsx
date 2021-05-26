@@ -7,7 +7,7 @@ const DropDown = ({ optionsList, value, onChange }) => {
       <option key={o.text}>{o.text}</option>
   );
   return (
-    <select value={value} onChange={onChange}>
+    <select className='select-dropdown' value={value} onChange={onChange}>
       {optionItems}
     </select>
   );
