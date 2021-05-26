@@ -3,7 +3,7 @@ import { GET_ME, UPDATE_USER } from "../actions/userActions";
 const user = (
   state = {
     user: {},
-    me: {},
+    me: null,
   },
   { type, payload }
 ) => {

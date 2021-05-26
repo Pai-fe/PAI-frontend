@@ -1,7 +1,7 @@
 export const routes = {
   ROOT: "/",
   LOGIN: "/login",
-  HOME: "/",
+  HOME: "/home",
   USERS: "/users",
   CREATE_USER: "/create-user",
   FA_LIST_VIEW: '/fas/list-view',

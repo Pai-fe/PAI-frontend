@@ -1,5 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+
 import * as FaIcons from "react-icons/fa"
 import * as AiIcons from "react-icons/ai"
 import logo from './images/logo.png'
@@ -10,41 +12,63 @@ import faImg from './images/FA.png'
 
 import './NavBar.css'
 
-function NavBar() {
+const NavBar = ({ user }) => {
+    console.log(user, 'testbest aaa');
     const [sidebar, setSidebar] = useState(false)
-
-    const showSidebar = () => {
-        setSidebar(!sidebar)
-    }
-
-    const sidebarData = [
+    const [sidebarData, setSidebarData] = useState([
         {
             title: 'Home',
             path: '/',
             image: homeImg,
             cName: 'nav-text'
-        },
-        {
-            title: 'Users',
-            path: '/users',
-            image: userImg,
-            cName: 'nav-text'
-        },
-        {
-            title: 'FA',
-            path: 'fas/list-view',
-            image: faImg,
-            cName: 'nav-text'
         }
-    ]
+    ])
+
+    const showSidebar = () => {
+        setSidebar(!sidebar)
+    }
+
+    useEffect(() => {
+        if(user?.uloga === 'Admin'){
+            setSidebarData([
+                {
+                    title: 'Home',
+                    path: '/',
+                    image: homeImg,
+                    cName: 'nav-text'
+                },
+                {
+                    title: 'Users',
+                    path: '/users',
+                    image: userImg,
+                    cName: 'nav-text'
+                },
+                {
+                    title: 'FA',
+                    path: 'fas/list-view',
+                    image: faImg,
+                    cName: 'nav-text'
+                }
+            ]);
+        } else {
+            setSidebarData([
+                {
+                    title: 'Home',
+                    path: '/',
+                    image: homeImg,
+                    cName: 'nav-text'
+                }
+            ]);
+        }
+    }, [user]);
 
     return (
         <div className="navbar-wrapper">
-            <div className="navbar">
+            {user?.uloga && (<div className="navbar">
                 <Link to="#" className='menu-bars'>
                     <FaIcons.FaBars onClick={showSidebar}/>
                 </Link>
-            </div>
+            </div>)}
             <div className='logo'>
                 <img src={logo}/>
             </div>

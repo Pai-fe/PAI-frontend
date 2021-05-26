@@ -1,8 +1,9 @@
-import { SET_FAS } from "../actions/fasActions";
+import { SET_FAS, SET_FA } from "../actions/fasActions";
 
 const fas = (
   state = {
-    list: []
+    list: [],
+    fa: null
   },
   { type, payload }
 ) => {
@@ -12,6 +13,11 @@ const fas = (
         ...state,
         list: [...payload]
       };
+    case SET_FA:
+      return {
+        ...state,
+        fa: payload
+      }
     default:
       return state;
   }

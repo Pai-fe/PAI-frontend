@@ -3,7 +3,7 @@ import { useHistory } from 'react-router';
 
 //Store
 import { useDispatch, useSelector } from 'react-redux';
-import { setFAs } from '../../redux/actions/fasActions';
+import { setFA, setFAs } from '../../redux/actions/fasActions';
 
 //Request
 import { axiosHelperCall } from '../../helpers/axios.helper';
@@ -45,11 +45,19 @@ const FAListView = ({ onEditClick, onDeleteClick }) => {
         console.log('TAG-ERROR','FAILED REQUEST AT Users.jsx');
     }
   }
+
+  const onEditFa = async(fa) => {
+    dispatch(setFA(fa));
+    setTimeout(()=>{
+      history.push(routes.FA_EDIT_VIEW.replace(':id', fa?.id))
+    }, 1000)
+  }
   
   useEffect(()=>{
     onLoad();
   }, []);
-
+  
+  console.log('testbest molim te', );
   return (
     <div className='fa-list-view'>
       <table className="table">
@@ -72,7 +80,7 @@ const FAListView = ({ onEditClick, onDeleteClick }) => {
                             <td>{fa?.tag}</td>
                             {currentUser?.uloga === "Admin" && (<td><button 
                                 className='btn btn-link'
-                                onClick={() => history.push(routes.FA_EDIT_VIEW)}
+                                onClick={() => onEditFa(fa)}
                             ><FaEdit/></button></td>)}
                             {currentUser?.uloga === "Admin" && (<td><button 
                                 className='btn btn-link'

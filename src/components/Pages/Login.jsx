@@ -22,7 +22,9 @@ const Login = () => {
   const history = useHistory();
 
   const storeToken = useSelector(state => state?.userInfo?.me);
+  const user = useSelector((state) => state.userInfo.user)
 
+  const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState("ekrsmanovi1@etf.unsa.ba");
   const [password, setPassword] = useState("password");
   const [buttonText] = useState("Login");
@@ -46,48 +48,52 @@ const Login = () => {
       if(status !== 200) throw new Error();
       localStorage.setItem(CONFIG.REACT_APP_TOKEN_CODE, `Bearer ${data.token}`);
       dispatch(getMe(data.token));
-      // TODO: GET ME HERE (missing endpoint)
-
-      //Dummy data uloga: "User" ili uloga: "User"
-      dispatch(updateUser({ 
-        email: "ekrsmanovi1@etf.unsa.ba",
-        uloga: "Admin"
-      }));
-
-      history.push(routes.FA_LIST_VIEW);
+      try{
+        const { data, status } = await axiosHelperCall('GET', `${CONFIG.APP_URL}/user/me`, {}, {})
+        if(status !== 200) throw new Error();
+        dispatch(updateUser(data.user))
+      } catch (e){
+        console.log('ERROR - TAG AppRouter.jsx')
+      }
+      history.push(routes.HOME);
     } catch(e){
       console.log('TAG-ERROR','FAILED REQUEST AT Login.jsx');
     }
   }
 
   const checkIfTokenIsValid = () => {
-    const localStorageToken = localStorage.getItem(CONFIG.REACT_APP_TOKEN_CODE)
-    console.log(storeToken, localStorageToken, 'Login.jsx missing validation for this token');
-    // TODO: GET ME route missing, do this later
+    if(user?.uloga) {
+      history.push(routes.HOME);
+    }
+    setLoading(false);
   }
 
   useEffect(() => {
     //On load of the page check if there is Token in localstorage or in store
     checkIfTokenIsValid()
-  }, [])
+  }, [user])
 
   return (
     <div className='login-div'>
-      <h1>LOGIN</h1>
-      <InputComponent 
-        type="email"
-        value={email}
-        onChange={onChangeEmail}
-      />
-      <InputComponent 
-        type="password"
-        value={password}
-        onChange={onChangePassword}
-      />
-      <LoginButton 
-        value={buttonText}
-        onClick={onClickLoginButton}
-      />
+      {!loading && (
+        <>
+        <h1>LOGIN</h1>
+        <InputComponent 
+          type="email"
+          value={email}
+          onChange={onChangeEmail}
+        />
+        <InputComponent 
+          type="password"
+          value={password}
+          onChange={onChangePassword}
+        />
+        <LoginButton 
+          value={buttonText}
+          onClick={onClickLoginButton}
+        />
+        </>
+      )}
     </div>
   );
 }
