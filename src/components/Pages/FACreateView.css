@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap');
+
+.fa-label {
+    font-family: 'Poppins';
+    color: rgb(78, 78, 78);
+    margin-left: 25px;
+    margin-top: 20px;
+}
+
+.create-fa-container {
+    margin-top: 60px;
+    margin-left: 30%;
+    background-color: #c9c9c925;
+    width: 40%;
+    height: 160%;
+    border-radius: 15px; 
+    padding-top: 2%;
+    padding-left: 1%;
+}
+
+
+h1 {
+    font-family: 'Poppins';
+    color: #f0a652;
+    margin-left: 25px;
+}
+

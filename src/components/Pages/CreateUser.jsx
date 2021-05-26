@@ -15,6 +15,8 @@ import { CONFIG } from '../../helpers/config';
 import DropDown from '../Dropdowns/Dropdown';
 import { routes } from '../AppRouter/RoutesList';
 
+import './CreateUser.css'
+
 const optionsList = [
   {
     value: "Admin",
@@ -70,26 +72,31 @@ const CreateUser = () => {
   }
 
   return (
-    <div>
+    <div className='create-user-container'>
+      <h1>Add new user</h1>
+      <label className='create-user-label'>Enter user email:</label>
       <InputComponent 
         type="email"
         value={email}
         onChange={onChangeEmail}
       />
+      <label className='create-user-label'>Enter user password:</label>
       <InputComponent 
         type="password"
         value={password}
         onChange={onChangePassword}
       />
+      <label className='create-user-label'>Enter user role:</label>
+      <br/>
       <DropDown 
         optionsList={optionsList}
         value={role}
         onChange={onChangeSelect}
       />
-      <InputComponent 
+      <InputComponent className='create-button'
           type='button'
           onClick={onClickLoginButton}
-          value='CREATE'
+          value='Submit'
       />
     </div>
   );

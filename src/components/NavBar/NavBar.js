@@ -5,6 +5,7 @@ import * as AiIcons from "react-icons/ai"
 import logo from './images/logo.png'
 import homeImg from './images/home.png'
 import userImg from './images/user.png'
+import faImg from './images/FA.png'
 
 
 import './NavBar.css'
@@ -27,6 +28,12 @@ function NavBar() {
             title: 'Users',
             path: '/users',
             image: userImg,
+            cName: 'nav-text'
+        },
+        {
+            title: 'FA',
+            path: 'fas/list-view',
+            image: faImg,
             cName: 'nav-text'
         }
     ]

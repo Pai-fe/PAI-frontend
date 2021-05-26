@@ -14,6 +14,8 @@ import { axiosHelperCall } from '../../helpers/axios.helper';
 import { CONFIG } from '../../helpers/config';
 import DropDown from '../Dropdowns/Dropdown';
 
+import './EditUser.css'
+
 const optionsList = [
   {
     value: "Admin",
@@ -59,13 +61,17 @@ const EditUser = ({ user, onClick }) => {
   }
 
   return (
-    <div>
+    <div className='edit-user-container'>
+      <h1>User Role Editor</h1>
+      <label className='edit-user-label'>Email:</label>
       <InputComponent 
         type="email"
         value={email}
         onChange={onChangeEmail}
         disabled
       />
+      <label className='edit-user-label'>Role:</label>
+      <br/>
       <DropDown 
         optionsList={optionsList}
         value={role}
@@ -74,7 +80,7 @@ const EditUser = ({ user, onClick }) => {
       <InputComponent 
           type='button'
           onClick={onClickLoginButton}
-          value='UPDATE ROLE'
+          value='Update'
       />
     </div>
   );

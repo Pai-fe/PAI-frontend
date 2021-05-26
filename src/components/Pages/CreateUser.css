@@ -1,0 +1,27 @@
+.create-user-container {
+    margin-top: 2%;
+    margin-left: 35%;
+    padding-top: 50px;
+    padding-left: 3%;
+    width: 30%;
+    height: 550px;
+    background-color: #c9c9c925;
+    border-radius: 25px;
+    border-width: thin;
+    border-color: black;
+}
+
+h1 {
+    color: #f0a652;
+
+}
+
+.create-user-label {
+    font-family: 'Poppins';
+    color: rgb(78, 78, 78);
+    margin-left: 25px;
+    margin-top: 20px;
+}
+
+
+

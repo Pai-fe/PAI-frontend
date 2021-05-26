@@ -9,6 +9,8 @@ import { routes } from "../AppRouter/RoutesList";
 import InputComponent from "../Inputs/InputComponent";
 import GeoMap from "../Map/Map";
 
+import './FACreateView.css'
+
 const FACreateView = () => {
   const history = useHistory();
 
@@ -47,37 +49,42 @@ const FACreateView = () => {
   }
 
   return(
-    <div>
-
+    <div className = 'create-fa-container'>
+      <h1>Create new FA definition</h1>
+      <label className='fa-label'>FA Latitude</label>
       <InputComponent 
         type="text"
         value={latitude}
         disabled
         onChange={onSetLatitude}
       />
+      <label className='fa-label'>FA Longitude</label>
       <InputComponent 
         type="text"
         value={longitude}
         disabled
         onChange={onSetLongitude}
       />
+      <label className='fa-label'>FA Name</label>
       <InputComponent 
         type="text"
         value={name}
         onChange={onSetName}
       />
+      <label className='fa-label'>FA Tag</label>
       <InputComponent 
         type="text"
         value={tag}
         onChange={onSetTag}
       />
+      <label className='fa-label'>Select FA location</label>
       <GeoMap 
         lat={latitude}
         lng={longitude}
         setLat={setLatitude}
         setLng={setLongitude}
       />
-      <InputComponent 
+      <InputComponent className='create-fa-button'
           type='button'
           onClick={onClickCreate}
           value='CREATE'
