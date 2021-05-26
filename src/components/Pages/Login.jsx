@@ -12,7 +12,7 @@ import LoginButton from '../Buttons/LoginButton';
 //Request
 import { axiosHelperCall } from '../../helpers/axios.helper';
 import { CONFIG } from '../../helpers/config';
-import { routes } from '../AppRouter/RoutesList';
+import { routes } from '../AppRouter/RoutesList'; 
 
 import './Login.css'
 
