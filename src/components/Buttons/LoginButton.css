@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100&display=swap');
+
+.login-button {
+color:rgb(105, 105, 105);
+font-family: 'Poppins';
+font-weight: bold;
+width: 300px;
+height: 35px;
+margin-left: 25px;
+margin-top: 40px;
+border-radius: 15px;
+border-width: thin;
+border-color: rgba(121, 121, 121, 0.308);
+background-color: rgb(224, 224, 224);
+font-size: 12pt;
+}
+
+.login-button {
+    background-position: center;
+    transition: background 0.5s;
+  }
+  
+  .login-button:hover {
+    background: #b9b9b9 radial-gradient(circle, transparent 1%, #b9b9b9 1%)
+      center/15000%;
+  }
+  
+  .login-button:active {
+    background-color: #dbdbdb;
+    background-size: 100%;
+    transition: background 0s;
+  }
+
