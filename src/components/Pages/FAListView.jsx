@@ -15,6 +15,10 @@ import InputComponent from '../Inputs/InputComponent';
 //Routes
 import { routes } from '../AppRouter/RoutesList';
 
+import './Table.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { FaTrash, FaEdit, FaPlus } from 'react-icons/fa';
+
 const FAListView = ({ onEditClick, onDeleteClick }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -47,8 +51,36 @@ const FAListView = ({ onEditClick, onDeleteClick }) => {
   }, []);
 
   return (
-    <div>
-      {fas.map(fa => (
+    <div className='fa-list-view'>
+      <table className="table">
+        <thead className="thead-dark">
+            <tr>
+            <th>ID</th>
+            <th>GEO-TAG</th>
+            <th>Name</th>
+            <th>Tag</th>
+            {currentUser?.uloga === "Admin" && (<th>Edit</th>)}
+            {currentUser?.uloga === "Admin" && (<th>Delete</th>)}
+            </tr>
+        </thead>
+        <tbody>
+                        {fas.map(fa => (
+                            <tr key={fa?.id}>
+                            <td>{fa?.id}</td>
+                            <td>{fa?.geotag[0]} | {fa?.geotag[1]}</td>
+                            <td>{fa?.naziv}</td>
+                            <td>{fa?.tag}</td>
+                            {currentUser?.uloga === "Admin" && (<td><button 
+                                className='btn btn-link'
+                                onClick={() => history.push(routes.FA_EDIT_VIEW)}
+                            ><FaEdit/></button></td>)}
+                            {currentUser?.uloga === "Admin" && (<td><button 
+                                className='btn btn-link'
+                                onClick={() => onDeleteFA(fa)}
+                            ><FaTrash/></button></td>)}
+                        </tr>
+                        ))}
+      {/* {fas.map(fa => (
         <div key={fa?.id} style={{ width: '100%',  display: 'flex', flexDirection: 'row' }}>
           <p style={{ marginRight: '30px' }}>Id:</p>
           <p style={{ marginRight: '30px' }}>{fa?.id} </p>
@@ -69,12 +101,18 @@ const FAListView = ({ onEditClick, onDeleteClick }) => {
               value='DELETE FA'
           />)}
         </div>
-      ))}
-      <InputComponent 
+      ))} */}
+          </tbody>
+      </table>
+      {/* <InputComponent 
           type='button'
           onClick={() => history.push(routes.FA_CREATE_VIEW)}
           value='CREATE NEW FA'
-      />
+      /> */}
+      {currentUser?.uloga === "Admin" && (<button 
+          className='btn btn-success'
+          onClick={() => history.push(routes.FA_CREATE_VIEW)}
+      ><FaPlus/>CREATE NEW FA</button>)}
     </div>
   );
 }

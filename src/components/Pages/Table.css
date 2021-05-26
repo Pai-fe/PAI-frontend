@@ -30,7 +30,7 @@
     color: black !important;
 }   
 
-.user {
+.user, .fa-list-view {
     margin-top: 20px;
 }
 

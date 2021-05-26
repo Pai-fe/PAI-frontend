@@ -14,7 +14,7 @@ import InputComponent from '../Inputs/InputComponent';
 import EditUser from './EditUser';
 import { routes } from '../AppRouter/RoutesList';
 
-import './Users.css';
+import './Table.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaTrash, FaEdit, FaPlus } from 'react-icons/fa';
 
