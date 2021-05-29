@@ -48,6 +48,12 @@ const NavBar = ({ user }) => {
                     path: 'fas/list-view',
                     image: faImg,
                     cName: 'nav-text'
+                },
+                {
+                    title: 'Campaigns',
+                    path: '/campaigns',
+                    image: faImg,
+                    cName: 'nav-text'
                 }
             ]);
         } else {

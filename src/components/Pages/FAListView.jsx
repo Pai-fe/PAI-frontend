@@ -29,7 +29,9 @@ const FAListView = ({ onEditClick, onDeleteClick }) => {
     try{
         const { data, status } = await axiosHelperCall('GET', `${CONFIG.APP_URL}/faDefinition/all`, {}, {});
         if(status !== 200) throw new Error();
+        console.log("data", data)
         dispatch(setFAs(data));
+        console.log("fasica", fas)
     } catch(e){
         console.log('TAG-ERROR','FAILED REQUEST AT FAs.jsx');
     }
