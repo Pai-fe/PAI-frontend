@@ -1,0 +1,27 @@
+.dashboard {
+    display: flex;
+}
+.upperHalf {
+    width: 100%;
+}
+.barChart {
+    width: 80%;
+    margin: auto;
+}
+.activityDiv {
+    width: 50%;
+    float: left;
+    margin-bottom: 24px;
+}
+.activityPar {
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    margin: 0;
+}
+.parHolder {
+    width: 40%;
+    margin: auto;
+    padding-top: 8px;
+    border-radius: 16px;
+}

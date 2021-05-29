@@ -19,7 +19,9 @@
     "react-scripts": "4.0.3",
     "redux": "^4.1.0",
     "sweetalert": "^2.1.2",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "chart.js": "^2.9.4",
+    "react-chartjs-2": "^2.11.1"
   },
   "scripts": {
     "start": "REACT_APP_API_URL=https://si-projekat2.herokuapp.com REACT_APP_TOKEN_CODE=SI-P2-TKN react-scripts start",
