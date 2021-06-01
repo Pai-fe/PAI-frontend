@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
+    "export-from-json": "^1.3.9",
     "heroku": "^7.54.0",
     "leaflet": "^1.7.1",
     "react": "^17.0.2",
