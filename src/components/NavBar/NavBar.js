@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
-
+import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
+import { useHistory } from 'react-router';
 import * as FaIcons from "react-icons/fa"
 import * as AiIcons from "react-icons/ai"
 import logo from './images/logo.png'
@@ -11,9 +10,11 @@ import faImg from './images/FA.png'
 
 
 import './NavBar.css'
+import { CONFIG } from "../../helpers/config";
+import { routes } from "../AppRouter/RoutesList";
 
 const NavBar = ({ user }) => {
-    console.log(user, 'testbest aaa');
+    const history = useHistory();
     const [sidebar, setSidebar] = useState(false)
     const [sidebarData, setSidebarData] = useState([
         {
@@ -28,8 +29,14 @@ const NavBar = ({ user }) => {
         setSidebar(!sidebar)
     }
 
+    const doLogout = () => {
+        localStorage.removeItem(CONFIG.REACT_APP_TOKEN_CODE);
+        history.push(routes.LOGIN);
+        window.location.reload();
+    }
+
     useEffect(() => {
-        if(user?.uloga === 'Admin'){
+        if (user?.uloga === 'Admin') {
             setSidebarData([
                 {
                     title: 'Home',
@@ -82,7 +89,7 @@ const NavBar = ({ user }) => {
                 <ul className='nav-menu-items' onClick={showSidebar}>
                     <li className='navbar-toggle'>
                         <Link to='#' className='menu-close'>
-                            <AiIcons.AiOutlineClose />
+                            <AiIcons.AiOutlineClose/>
                         </Link>
                     </li>
                     {sidebarData.map((item, index) => {
@@ -90,20 +97,19 @@ const NavBar = ({ user }) => {
                             <li key={index} className={item.cName}>
                                 <Link to={item.path}>
                                     <div className='meni-icons'>
-                                        <img  src={item.image}/>
+                                        <img src={item.image}/>
                                     </div>
                                     <span className='item-span'>{item.title}</span>
                                 </Link>
                             </li>
-                            
+
                         )
                     })}
+                    <button className={'btn logout-btn'} onClick={doLogout}>
+                        Logout
+                    </button>
                 </ul>
             </nav>
-
-            
-            
-            
         </div>
     )
 }

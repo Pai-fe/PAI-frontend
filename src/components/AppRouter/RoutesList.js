@@ -10,7 +10,7 @@ export const routes = {
     CampaignCreateView: "/create-view",
     Campaigns: "/campaigns",
     AddQuestion: "/add-question",
-    CAMP_EDIT_VIEW: "/:id",
+    CAMP_EDIT_VIEW: "/campaign/:id/edit",
     QUESTION_EDIT_VIEW: "/question",
     CreateCampaignReport: "/campaign/:id/report"
 };

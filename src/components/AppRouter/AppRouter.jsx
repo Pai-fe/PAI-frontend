@@ -50,7 +50,7 @@ function AppRouter() {
             <Router>
                 <NavBar user={user}/>
                 <Switch>
-                    <Route path={routes.ROOT} exact component={Login}/>
+                    <Route path={routes.LOGIN} exact component={Login}/>
                     <Route path={routes.HOME} exact component={Home}/>
                     <Route path={routes.USERS} exact component={Users}/>
                     <Route path={routes.CREATE_USER} exact component={CreateUser}/>
@@ -64,7 +64,7 @@ function AppRouter() {
                     <Route path={routes.CAMP_EDIT_VIEW} exact component={CampEditView}/>
                     <Route path={routes.CreateCampaignReport} exact component={CreateReport}/>
 
-                    <Route render={() => <Redirect to={routes.ROOT}/>}/>
+                    <Route render={() => <Redirect to={routes.LOGIN}/>}/>
                 </Switch>
             </Router>
         </>

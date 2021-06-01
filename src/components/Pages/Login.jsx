@@ -66,7 +66,8 @@ const Login = () => {
     }
 
     const checkIfTokenIsValid = () => {
-        if (user?.uloga) {
+        const token = localStorage.getItem(CONFIG.REACT_APP_TOKEN_CODE);
+        if (token && user?.uloga) {
             history.push(routes.HOME);
         }
         setLoading(false);
