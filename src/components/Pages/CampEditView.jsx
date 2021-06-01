@@ -60,7 +60,7 @@ const CampEditView = () => {
 
   const onLoad = async() => {
     try{
-        const { data, status } = await axiosHelperCall('GET', `https://si-main-server.herokuapp.com/api/campaign/`+id, {}, {});
+        const { data, status } = await axiosHelperCall('GET', `https://si-projekat2.herokuapp.com/api/campaign/`+id, {}, {});
         if(status !== 200) throw new Error();
         console.log("data", data);
         //dispatch(setCamps(data));
@@ -186,7 +186,7 @@ const onClickAdd1 = (event) => {
 const onDeleteQuestion = async (q) => {
     console.log("TUSAMTUSAM")
     try{
-        const { data, status } = await axiosHelperCall('DELETE', `https://si-main-server.herokuapp.com/api/question/`+q.QuestionId, {
+        const { data, status } = await axiosHelperCall('DELETE', `https://si-projekat2.herokuapp.com/api/question/`+q.QuestionId, {
         }, {});
         if(status === 200) {
           swal({
@@ -195,7 +195,7 @@ const onDeleteQuestion = async (q) => {
             icon: "success"
           }).then(async value => {
             try{
-                const { data, status } = await axiosHelperCall('GET', `https://si-main-server.herokuapp.com/api/campaign/`+id, {}, {});
+                const { data, status } = await axiosHelperCall('GET', `https://si-projekat2.herokuapp.com/api/campaign/`+id, {}, {});
                 if(status !== 200) throw new Error();
                 console.log("data", data);
                 setQuestions(data.Questions);
@@ -230,7 +230,7 @@ const onClickEditCampaign = async (event) => {
       // }
       // console.log("obj",obj)
       try{
-        const { data, status } = await axiosHelperCall('POST', `https://si-main-server.herokuapp.com/api/campaign/edit`, {
+        const { data, status } = await axiosHelperCall('POST', `https://si-projekat2.herokuapp.com/api/campaign/edit`, {
           CampaignId: id,
           Name: name,
           StartDate: start,
@@ -279,7 +279,7 @@ const onClickAddQuestion = async () => {
         Answers: ans};
         console.log(body)
         try{
-            const { data, status } = await axiosHelperCall('POST', `https://si-main-server.herokuapp.com/api/question`, {
+            const { data, status } = await axiosHelperCall('POST', `https://si-projekat2.herokuapp.com/api/question`, {
                 CampaignId: id,
                 QuestionType: type,
                 QuestionText: questionText,
@@ -296,7 +296,7 @@ const onClickAddQuestion = async () => {
                 icon: "success"
               }).then(async value => {
                 try{
-                    const { data, status } = await axiosHelperCall('GET', `https://si-main-server.herokuapp.com/api/campaign/`+id, {}, {});
+                    const { data, status } = await axiosHelperCall('GET', `https://si-projekat2.herokuapp.com/api/campaign/`+id, {}, {});
                     if(status !== 200) throw new Error();
                     console.log("data", data);
                     setQuestions(data.Questions);

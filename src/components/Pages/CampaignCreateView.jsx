@@ -254,7 +254,7 @@ const onSetText = (event) => {
       }
       console.log("obj", newObj);
     try{
-      const { data, status } = await axiosHelperCall('POST', `https://si-main-server.herokuapp.com/api/campaign/add`, {
+      const { data, status } = await axiosHelperCall('POST', `https://si-projekat2.herokuapp.com/api/campaign/add`, {
         Name: name,
         StartDate: start,
         EndDate: end,

@@ -34,7 +34,7 @@ const Campaigns = () => {
 
     const onLoad = async() => {
         try{
-            const { data, status } = await axiosHelperCall('GET', `https://si-main-server.herokuapp.com/api/campaign/all`, {}, {});
+            const { data, status } = await axiosHelperCall('GET', `https://si-projekat2.herokuapp.com/api/campaign/all`, {}, {});
             if(status !== 200) throw new Error();
             
             console.log("data", data);
@@ -72,7 +72,7 @@ const Campaigns = () => {
 
       const onDeleteCamp = async (camp)=>{
         try{
-          const { data, status } = await axiosHelperCall('DELETE', `https://si-main-server.herokuapp.com/api/campaign/delete/`+camp.CamapignId, {}, {});
+          const { data, status } = await axiosHelperCall('DELETE', `https://si-projekat2.herokuapp.com/api/campaign/delete/`+camp.CamapignId, {}, {});
           if(status === 200) {
             swal({
               title: "Success!",

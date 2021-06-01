@@ -68,11 +68,11 @@ const QuestionEditView = () => {
   
 
   const onClickEditScale = async (event)=>{
-    await axiosHelperCall('DELETE', `https://si-main-server.herokuapp.com/api/answer/`+answers[0].AnswerId, {
+    await axiosHelperCall('DELETE', `https://si-projekat2.herokuapp.com/api/answer/`+answers[0].AnswerId, {
       
         }, {}).then(async ()=>{
     try{
-      const { data, status } = await axiosHelperCall('POST', `https://si-main-server.herokuapp.com/api/answer`, {
+      const { data, status } = await axiosHelperCall('POST', `https://si-projekat2.herokuapp.com/api/answer`, {
         QuestionId : location.state.question.QuestionId,
         Answer:{
           AnswerText: maxValue,
@@ -86,7 +86,7 @@ const QuestionEditView = () => {
           icon: "success"
         }).then(async value => {
           try{
-            const { data, status } = await axiosHelperCall('PUT', `https://si-main-server.herokuapp.com/api/question/`+location.state.question.QuestionId, {
+            const { data, status } = await axiosHelperCall('PUT', `https://si-projekat2.herokuapp.com/api/question/`+location.state.question.QuestionId, {
               QuestionId : location.state.question.QuestionId,
               QuestionType: location.state.question.QuestionType,
               QuestionText: text,
@@ -116,7 +116,7 @@ const QuestionEditView = () => {
   //RUTA ZA BRISANJE NIJE JOS NAPRAVLJENA ALI KADA BUDE RADIT CE OVAJ POST
     const onDeleteAnswer = async (a) => {
       try{
-        const { data, status } = await axiosHelperCall('DELETE', `https://si-main-server.herokuapp.com/api/answer/`+a.AnswerId, {
+        const { data, status } = await axiosHelperCall('DELETE', `https://si-projekat2.herokuapp.com/api/answer/`+a.AnswerId, {
           AnswerId : a.AnswerId
         }, {});
         if(status === 200) {
@@ -139,7 +139,7 @@ const QuestionEditView = () => {
 
     const onClickAdd = async (event) =>{
       try{
-        const { data, status } = await axiosHelperCall('POST', `https://si-main-server.herokuapp.com/api/answer`, {
+        const { data, status } = await axiosHelperCall('POST', `https://si-projekat2.herokuapp.com/api/answer`, {
           QuestionId : location.state.question.QuestionId,
           Answer:{
             AnswerText: current,
@@ -168,7 +168,7 @@ const QuestionEditView = () => {
 
     const onClickEdit = async (event) =>{
       try{
-        const { data, status } = await axiosHelperCall('PUT', `https://si-main-server.herokuapp.com/api/question/`+location.state.question.QuestionId, {
+        const { data, status } = await axiosHelperCall('PUT', `https://si-projekat2.herokuapp.com/api/question/`+location.state.question.QuestionId, {
           QuestionId : location.state.question.QuestionId,
           QuestionType: location.state.question.QuestionType,
           QuestionText: text,
