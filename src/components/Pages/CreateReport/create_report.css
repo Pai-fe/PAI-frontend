@@ -1,0 +1,13 @@
+.create-report {
+    padding: 20px;
+}
+
+.report-form .campaign-label {
+    font-size: 22px;
+    margin-right: 8px;
+}
+
+.report-form .campaign-name {
+    font-size: 22px;
+    font-weight: bold;
+}
