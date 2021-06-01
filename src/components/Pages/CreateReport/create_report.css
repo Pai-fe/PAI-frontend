@@ -2,7 +2,7 @@
     padding: 20px;
 }
 
-.report-form .campaign-label {
+.report-form .campaign-label, .loading {
     font-size: 22px;
     margin-right: 8px;
 }
@@ -10,4 +10,19 @@
 .report-form .campaign-name {
     font-size: 22px;
     font-weight: bold;
+}
+
+.select-device-label {
+    margin-top: 20px;
+    margin-bottom: 5px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.report-form .device-select {
+    width: 400px;
+}
+
+.export-btn {
+    margin: 20px auto 20px 0;
 }
