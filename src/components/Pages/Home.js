@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BarChart from "../Charts/BarChart";
 import "./Home.css"
 import DonutChart from "../Charts/DonutChart";
+import {axiosHelperCall} from "../../helpers/axios.helper";
 
 let barChart = {
 
@@ -14,6 +15,7 @@ let barChart = {
         }
     ]
 }
+
 
 let donutChart = {
     labels: [],
@@ -61,31 +63,64 @@ function setAvgTimesChart(avgTimes) {
 export let barchartMaxValue = 10
 
 function setNumOfAnswersChart(numOfAnswers) {
+    let newBarChart = {
+
+        labels: [],
+        datasets:[
+            {
+                label:"Number of answers by day",
+                data:[],
+                backgroundColor:'rgba(75, 192, 192, 0.6)'
+            }
+        ]
+    }
     numOfAnswers.forEach((obj) => {
-        barChart.labels.push(obj.datum)
-        barChart.datasets[0].data.push(obj.brojOdgovora)
-        if (obj.brojOdgovora > barchartMaxValue) {
-            barchartMaxValue = obj.brojOdgovora
+        newBarChart.labels.push(obj.date)
+        newBarChart.datasets[0].data.push(obj.responseCount)
+        if (obj.responseCount > barchartMaxValue) {
+            barchartMaxValue = obj.responseCount
         }
     })
     if (barchartMaxValue === 0 || barchartMaxValue % 10 !== 0)
         barchartMaxValue = barchartMaxValue + (10 - barchartMaxValue % 10)
+    return newBarChart
 }
 
+const ruta = "/api/device/activeNotActive/all"
+
+const deviceEndpoint = "https://si-projekat2.herokuapp.com/api/device/"
+
 function Home() {
-    let [numOfActive, setNumOfActive] = useState(0)
-    let [numOfInactive, setNumOfInactive] = useState(0)
-    let [numOfAnswersByDay, setNumOfAnswersByDay] = useState([])
+    let [numOfActive, setNumOfActive] = useState("-")
+    let [numOfInactive, setNumOfInactive] = useState("-")
+    let [chartAnswersByDay, setChartAnswersByDay] = useState(barChart)
     let [avgSessionTimes, setAvgSessionTimes] = useState([])
+
+    console.log(chartAnswersByDay)
 
     useEffect(() => {
         setAvgTimesChart(vremena)
-        setNumOfAnswersChart(odgovoriPoDanu)
-        setNumOfActive(5)
-        setNumOfInactive(4)
-        /*
-            Dohvaćanje podataka
-         */
+        axiosHelperCall("GET", deviceEndpoint + "response/count")
+            .then((res) => {
+                let data = res.data
+                console.log(data)
+                let chartData = setNumOfAnswersChart(data)
+                console.log(chartData)
+                setChartAnswersByDay(chartData)
+            })
+        axiosHelperCall("GET", deviceEndpoint + "activeNotActive/all")
+            .then((res) => {
+                let data = res.data
+                let active = data.aktivni
+                let inactive = data.neaktivni
+                setNumOfActive(active)
+                setNumOfInactive(inactive)
+            })
+            .catch((err) => {
+                setNumOfActive("-")
+                setNumOfInactive("-")
+                console.log(err)
+            })
 
     }, [])
 
@@ -110,7 +145,7 @@ function Home() {
                     </div>
                 </div>
                 <div className="barChart">
-                    <BarChart chartData={barChart}/>
+                    <BarChart chartData={chartAnswersByDay}/>
                 </div>
             </div>
             <div style={{width: "40%", float: "left", marginTop: "24px"}}>

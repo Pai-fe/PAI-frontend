@@ -4,19 +4,13 @@ import {barchartMaxValue} from "../Pages/Home";
 
 
 class BarChart extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            chartData:props.chartData
-          }
-    }
     render(){
         return (
           <div className="chart">
             <Bar
-                data={this.state.chartData}
+                data={this.props.chartData}
     
-                height={200}
+                height={300}
                 width={100}
                     
                 options={{

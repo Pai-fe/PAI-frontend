@@ -3,15 +3,16 @@
 }
 .upperHalf {
     width: 100%;
+    display: flex;
 }
 .barChart {
     width: 80%;
+    padding-top: 16px;
     margin: auto;
 }
 .activityDiv {
-    width: 50%;
-    float: left;
     margin-bottom: 24px;
+    flex: 1;
 }
 .activityPar {
     text-align: center;
