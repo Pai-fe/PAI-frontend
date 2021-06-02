@@ -79,7 +79,7 @@ const CampEditView = () => {
 
     const onLoad2 = async()=>{
         try{
-          const { data, status } = await axiosHelperCall('GET', `${CONFIG.APP_URL}/faDefinition/all`, {}, {});
+          const { data, status } = await axiosHelperCall('GET', `https://si-projekat2.herokuapp.com/faDefinition/all`, {}, {});
           if(status !== 200) throw new Error();
           console.log("data", data)
           setFas(data);

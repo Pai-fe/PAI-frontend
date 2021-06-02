@@ -105,8 +105,8 @@ const Campaigns = () => {
                     <tr key={camp?.CamapignId}>
                         <td>{camp?.CamapignId}</td>
                         <td>{camp?.Name}</td>
-                        <td>{camp?.StartDate}</td>
-                        <td>{camp?.EndDate}</td>
+                        <td>{camp?.StartDate.substring(0,10)}</td>
+                        <td>{camp?.EndDate.substring(0,10)}</td>
                         {currentUser?.uloga === "Admin" && (<td>
                             <button 
                                 className='btn btn-link'
