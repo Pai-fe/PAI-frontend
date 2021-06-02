@@ -83,6 +83,7 @@ function setNumOfAnswersChart(numOfAnswers) {
     })
     if (barchartMaxValue === 0 || barchartMaxValue % 10 !== 0)
         barchartMaxValue = barchartMaxValue + (10 - barchartMaxValue % 10)
+
     return newBarChart
 }
 
@@ -95,8 +96,6 @@ function Home() {
     let [numOfInactive, setNumOfInactive] = useState("-")
     let [chartAnswersByDay, setChartAnswersByDay] = useState(barChart)
     let [avgSessionTimes, setAvgSessionTimes] = useState([])
-
-    console.log(chartAnswersByDay)
 
     useEffect(() => {
         setAvgTimesChart(vremena)

@@ -27,10 +27,10 @@ class BarChart extends Component{
                                     beginAtZero: true,
                                     steps: 20,
                                     stepValue: 5,
-                                    max: barchartMaxValue
+                                    max: 100
                                 }
-                            }]  
-                    }         
+                            }]
+                    }
                 }}
             />
           </div>
