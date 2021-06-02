@@ -106,7 +106,7 @@ const Campaigns = () => {
                     <th>Name</th>
                     <th>Start date</th>
                     <th>End date</th>
-                    <th>Report</th>
+                    {currentUser?.uloga === "Admin" && (<th>Report</th>)}
                     {currentUser?.uloga === "Admin" && (<th>Edit</th>)}
                     {currentUser?.uloga === "Admin" && (<th>Delete</th>)}
                 </tr>
@@ -118,15 +118,15 @@ const Campaigns = () => {
                         <td>{camp?.Name}</td>
                         <td>{camp?.StartDate.substring(0,10)}</td>
                         <td>{camp?.EndDate.substring(0,10)}</td>
-                        <td>{camp?.StartDate}</td>
-                        <td>{camp?.EndDate}</td>
-                        <td>
-                            <button
-                                className='btn btn-link'
-                                onClick={() => onExportCampaign(camp)}>
-                                <FaFileExport/>
-                            </button>
-                        </td>
+                        {currentUser?.uloga === "Admin" && (
+                            <td>
+                                <button
+                                    className='btn btn-link'
+                                    onClick={() => onExportCampaign(camp)}>
+                                    <FaFileExport/>
+                                </button>
+                            </td>
+                        )}
                         {currentUser?.uloga === "Admin" && (<td>
                                 <button
                                     className='btn btn-link'
