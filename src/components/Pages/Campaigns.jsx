@@ -23,6 +23,7 @@ import { FaTrash, FaEdit, FaPlus, FaFileExport } from 'react-icons/fa';
 import swal from "sweetalert";
 
 
+
 const Campaigns = () => {
     const [campaigns, setCampaigns] = React.useState([]);
     const dispatch = useDispatch();
@@ -105,7 +106,7 @@ const Campaigns = () => {
                     <th>Name</th>
                     <th>Start date</th>
                     <th>End date</th>
-                    {currentUser?.uloga === "Admin" && (<th>Report</th>)}
+                    <th>Report</th>
                     {currentUser?.uloga === "Admin" && (<th>Edit</th>)}
                     {currentUser?.uloga === "Admin" && (<th>Delete</th>)}
                 </tr>
@@ -115,16 +116,17 @@ const Campaigns = () => {
                     <tr key={camp?.CamapignId}>
                         <td>{camp?.CamapignId}</td>
                         <td>{camp?.Name}</td>
+                        <td>{camp?.StartDate.substring(0,10)}</td>
+                        <td>{camp?.EndDate.substring(0,10)}</td>
                         <td>{camp?.StartDate}</td>
                         <td>{camp?.EndDate}</td>
-                        {currentUser?.uloga === "Admin" && (<td>
-                                <button
-                                    className='btn btn-link'
-                                    onClick={() => onExportCampaign(camp)}>
-                                    <FaFileExport/>
-                                </button>
-                            </td>
-                        )}
+                        <td>
+                            <button
+                                className='btn btn-link'
+                                onClick={() => onExportCampaign(camp)}>
+                                <FaFileExport/>
+                            </button>
+                        </td>
                         {currentUser?.uloga === "Admin" && (<td>
                                 <button
                                     className='btn btn-link'
