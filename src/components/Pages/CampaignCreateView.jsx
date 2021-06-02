@@ -286,20 +286,18 @@ const onSetText = (event) => {
         value={name}
         onChange={onSetName}
       />
-      <label className='fa-label'>Start date</label>
-      <InputComponent 
-        type="date"
-        //value={startDate}
-        onChange={onSetStartDate}
-      />
-      <label className='fa-label'>End date</label>
-      <InputComponent 
-        type="date"
-        //value={endDate}
-        onChange={onSetEndDate}
-      />
-
-
+        <label className='fa-label dateLabel'>Start date</label>
+            <InputComponent
+                type="date"
+                //value={startDate}
+                onChange={onSetStartDate}
+            />
+        <label className='fa-label'>End date</label>
+          <InputComponent
+              type="date"
+              //value={endDate}
+              onChange={onSetEndDate}
+          />
 
       <label className='fa-label'>Available FAs</label>
       <br/>
@@ -352,7 +350,8 @@ const onSetText = (event) => {
 
 <br/>
       <label className='fa-label'>Questions</label>
-      <div className='fa-list-view'>
+        <br/>
+        <div className='fa-list-view' style={{marginTop: "0"}}>
           <table className="table">
             <thead className="thead-dark">
                 <tr>
@@ -386,7 +385,7 @@ const onSetText = (event) => {
           ><FaPlus/>ADD QUESTION</button>)}
 
           {add==true && <div><label className='fa-label'>Type of question </label>
-        <select defaultValue="Choose" onChange={(e)=>{setType(e.target.value)}}>
+        <select class="form-select" style={{width: "90%", marginTop: "25px", marginLeft: "25px"}} aria-label="Question select" defaultValue="Choose" onChange={(e)=>{setType(e.target.value)}}>
             <option>Single</option>
             <option>Scale</option>
             <option>Multiple</option>

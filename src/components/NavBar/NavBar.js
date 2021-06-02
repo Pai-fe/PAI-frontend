@@ -7,6 +7,7 @@ import logo from './images/logo.png'
 import homeImg from './images/home.png'
 import userImg from './images/user.png'
 import faImg from './images/FA.png'
+import campaignImg from './images/campaign.png'
 
 
 import './NavBar.css'
@@ -59,7 +60,7 @@ const NavBar = ({ user }) => {
                 {
                     title: 'Campaigns',
                     path: '/campaigns',
-                    image: faImg,
+                    image: campaignImg,
                     cName: 'nav-text'
                 }
             ]);
