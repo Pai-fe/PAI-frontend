@@ -56,7 +56,7 @@ const CampEditView = () => {
 
   useEffect(()=>{
     onLoad3()
-  }, [fas])
+  }, [fas, selectedFas])
 
   const onLoad = async() => {
     try{
@@ -70,19 +70,8 @@ const CampEditView = () => {
         setStartDate(data.StartDate.substring(0,10))
         setEndDate(data.EndDate.substring(0,10));
         setQuestions(data.Questions);
-        //setSelectedFas(data.Devices);
-        //ovo je dummy data
-        let arr = [
-          {id:22,
-          naziv:"Testni2",
-          geotag:[43.324378463072996, 17.804511631732556],
-          tag:"Mostar"},
-          {id:23,
-            naziv:"fa2",
-            geotag:[43.84838888369753, 18.376520907999858],
-            tag:"hrasno"},
-        ]
-        setSelectedFas(arr)
+        console.log(data.Devices);
+        setSelectedFas(data.Devices);
     } catch(e){
         console.log('TAG-ERROR','FAILED REQUEST AT Camps.jsx');
     }
@@ -94,7 +83,6 @@ const CampEditView = () => {
           if(status !== 200) throw new Error();
           console.log("data", data)
           setFas(data);
-          console.log(fas);
           
           
       }catch(e){
@@ -102,21 +90,21 @@ const CampEditView = () => {
       }
       }
 
+      function comparer(otherArray){
+        return function(current){
+          return otherArray.filter(function(other){
+            return other.deviceId == current.id
+          }).length == 0;
+        }
+      }
+
       const onLoad3 = async()=>{
+        
         if(selectedFas.length>0 && fas.length>0 && firstTime){
-          // var c = fas.filter(function(objFromA) {
-          //   return !selectedFas.find(function(objFromB) {
-          //     return objFromA.id === objFromB.id
-          //   })
-          // })
-          //setFas(fas.filter(f1 => !selectedFas.some(f2 => f1.id === f2.id)));
-          let clone = [...fas];
-          clone = clone.filter(function(objFromA) {
-              return !selectedFas.find(function(objFromB) {
-                return objFromA.id === objFromB.id
-              })
-            })
-            setFas(clone)
+          console.log("Uso")
+          console.log("selektovane", selectedFas);
+        console.log("ukupne", fas);
+          setFas(fas.filter(comparer(selectedFas)))
         setFirstTime(false)
         console.log(selectedFas);
         console.log(fas);
@@ -129,7 +117,8 @@ const CampEditView = () => {
       }
     
       const onUnselectedFa = (fa)=>{
-        setSelectedFas(selectedFas.filter(f => f.id!==fa.id))
+        console.log(fa);
+        setSelectedFas(selectedFas.filter(f => f.deviceId!==fa.deviceId))
         setFas([...fas, fa]);
       }
 
@@ -216,11 +205,13 @@ const onClickEditCampaign = async (event) => {
       let [year, month, day] =  endDate.split('-')
       let end = day + "-" + month + "-" + year;
       let ds =[]
+      console.log("selektovane na editu", selectedFas)
       selectedFas.map(fa=>{
         ds.push({
-          DeviceId:4//fa.id
+          DeviceId:fa?.id || fa.deviceId
         })
       })
+      console.log("ds", ds)
       // let obj = {
       //   CampaignId: id,
       //     Name: name,
@@ -372,9 +363,9 @@ const onClickAddQuestion = async () => {
             </thead>
             <tbody>
                             {fas.map(f => (
-                                <tr key={f.id}>
-                                <td>{f.naziv}</td>
-                                <td>{f.tag}</td>
+                                <tr key={f?.id || f.deviceId}>
+                                <td>{f?.naziv || f.name}</td>
+                                <td>{f?.tag}</td>
                                 {currentUser?.uloga === "Admin" && (<td><button 
                                     className='btn btn-link'
                                      onClick={() => onSelectedFa(f)}
@@ -390,15 +381,14 @@ const onClickAddQuestion = async () => {
             <thead className="thead-dark">
                 <tr>
                 <th>Naziv</th>
-                <th>Tag</th>
-                {currentUser?.uloga === "Admin" && (<th>Unselect</th>)}
+                {/* {currentUser?.uloga === "Admin" && (<th>Unselect</th>)} */}
                 </tr>
             </thead>
             <tbody>
                             {selectedFas.map(f => (
-                                <tr key={f.id}>
-                                <td>{f.naziv}</td>
-                                <td>{f.tag}</td>
+                                <tr key={f?.deviceId || f.id}>
+                                <td>{f?.name || f.naziv}</td>
+                                {/* <td>{f.tag}</td> */}
                                 {/* {currentUser?.uloga === "Admin" && (<td><button 
                                     className='btn btn-link'
                                      onClick={() => onUnselectedFa(f)}
