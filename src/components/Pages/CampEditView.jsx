@@ -43,15 +43,17 @@ const CampEditView = () => {
   const [questionText, setQuestionText] = useState("");
   const [current, setCurrent] = useState("");
   const [answers, setAnswers] = useState([])
-  const [maxValue, setMaxValue] = useState("")
+  const [maxValue, setMaxValue] = useState("0")
+  const [minValue, setMinValue] = useState("0")
   const [selectedFas, setSelectedFas] = useState([]);
   const [fas, setFas] = useState([]);
   const [firstTime, setFirstTime] = useState(true)
+  const [campaigns, setCampaigns] = React.useState([]);
 
   useEffect(()=>{
     onLoad();
     onLoad2();
-    
+    onLoad68();
   }, []);
 
   useEffect(()=>{
@@ -110,6 +112,22 @@ const CampEditView = () => {
         console.log(fas);
         }
       }
+
+      const onLoad68 = async () => {
+        try {
+            const {
+                data,
+                status
+            } = await axiosHelperCall('GET', `https://si-projekat2.herokuapp.com/api/campaign/all`, {}, {});
+            if (status !== 200) throw new Error();
+
+            console.log("data", data);
+            setCampaigns(data);
+
+        } catch (e) {
+            console.log('TAG-ERROR', 'FAILED REQUEST AT FAs.jsx');
+        }
+    }
 
       const onSelectedFa = (fa)=>{
         setFas(fas.filter(f => f.id!==fa.id))
@@ -200,6 +218,24 @@ const onDeleteQuestion = async (q) => {
 }
 
 const onClickEditCampaign = async (event) => {
+  console.log(campaigns)
+  console.log(id)
+  let ima = false;
+    campaigns.map(kampanja=>{
+      if(kampanja.Name==name && kampanja.CamapignId!=id){
+        console.log("ID", id)
+        console.log("KampanjaID", kampanja.CamapignId)
+        ima = true;
+      }
+    })
+    if(ima){
+      swal({
+        title: "Fail!",
+        text: "There is already a campaign with that name!",
+        icon: "error"
+      })
+    }
+    else{
     let [year1, month1, day1] =  startDate.split('-')
       let start = day1 + "-" + month1 + "-" + year1;
       let [year, month, day] =  endDate.split('-')
@@ -240,18 +276,34 @@ const onClickEditCampaign = async (event) => {
       } catch(e){
         console.log('TAG-ERROR','FAILED REQUEST AT CampEdit.jsx');
       }
+    }
 }
 
 const onClickAddQuestion = async () => {
     let ans = []
     if(type!="Text"){
-    
+        if(type=="Scale"){
+          let max=maxValue
+          let min=minValue
+          if(max=="")
+            max="0"
+          if(min=="")
+            min="0"
+            let odgovor=min+"-"+max
+        //setAnswers([min+"-"+max])
+        ans.push({
+          AnswerText: min+"-"+max,
+          IsAPicture:false
+      });
+        }
+        else {
         answers.map(answer=>{
           ans.push({
               AnswerText: answer,
               IsAPicture:false
           });
         })
+      }
     }
     // else{
     //     ans.push({
@@ -304,11 +356,15 @@ const onClickAddQuestion = async () => {
           setAdd(!add);
 }
 
- 
+const onSetScaleValue2 = (e) =>{
+  setMinValue(e.target.value)
+  //setAnswers([e.target.value])
+}
+
 
   const onSetScaleValue = (e) =>{
       setMaxValue(e.target.value)
-      setAnswers([e.target.value])
+    //  setAnswers([e.target.value])
   }
 
 
@@ -494,6 +550,12 @@ const onClickAddQuestion = async () => {
         type="text"
         value={questionText}
         onChange={onSetQuestionText}
+      />
+      <label className='fa-label'>Min value</label> 
+      <InputComponent 
+        type="number"
+        value={minValue}
+        onChange={onSetScaleValue2}
       />
       <label className='fa-label'>Max value</label> 
       <InputComponent 

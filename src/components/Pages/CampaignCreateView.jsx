@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import swal from "sweetalert";
 import { useDispatch, useSelector } from 'react-redux';
+import {useRef} from 'react';
 
 import { axiosHelperCall } from "../../helpers/axios.helper";
 import { CONFIG } from "../../helpers/config";
@@ -36,8 +37,11 @@ const CampaignCreateView = () => {
     const [questionToEditText, setQuestionToEditText] = useState("")
     const [questionToEditAnswers, setQuestionToEditAnswers] = useState([])
     const [maxValue, setMaxValue] = useState("0");
+    const [minValue, setMinValue] = useState("0");
     const [fas, setFas] = useState([]);
     const [selectedFAs, setSelectedFAs] = useState([]);
+    const [disabled, setDisabled] = useState(false);
+    const [campaigns, setCampaigns] = React.useState([]);
 
     const onLoad = async()=>{
         try{
@@ -50,8 +54,25 @@ const CampaignCreateView = () => {
       }
       }
 
+      const onLoad2 = async () => {
+        try {
+            const {
+                data,
+                status
+            } = await axiosHelperCall('GET', `https://si-projekat2.herokuapp.com/api/campaign/all`, {}, {});
+            if (status !== 200) throw new Error();
+
+            console.log("data", data);
+            setCampaigns(data);
+
+        } catch (e) {
+            console.log('TAG-ERROR', 'FAILED REQUEST AT FAs.jsx');
+        }
+    }
+
       useEffect(()=>{
         onLoad();
+        onLoad2();
       }, []);
 
   const onSetName = (event) => {
@@ -71,6 +92,10 @@ const CampaignCreateView = () => {
   const onChangeValue = (event) =>{
       setMaxValue(event.target.value);
   }
+
+  const onChangeValue2 = (event) =>{
+    setMinValue(event.target.value);
+}
 
   const onClickAdd1 = (event) => {
     setAdd(!add);
@@ -96,8 +121,15 @@ const onSetText = (event) => {
     }
 
     const onClickAddQuestionScale = (event) => {
-
-    let newQ = {text:text, type:type, answers:[maxValue]};
+      let min = minValue;
+      let max = maxValue;
+      
+      if(min=="")
+        min="0"
+      if(max=="")
+        max="0";  
+      let odgovor = min+"-"+max;
+    let newQ = {text:text, type:type, answers:[odgovor]};
     console.log("newQ", newQ)
     setQuestions([...questions, newQ]);
     console.log(newQ);
@@ -124,9 +156,13 @@ const onSetText = (event) => {
       setAnswers(question.answers)
     setQuestionToEdit(question);
     setType(question.type)
-    if(question.type=="Scale")
-        setMaxValue(question.answers[0])
-    console.log(maxValue)
+    if(question.type=="Scale"){
+      let splitovano = question.answers[0].split("-")
+      console.log("Splitovano", splitovano)
+        setMaxValue(splitovano[1])
+        setMinValue(splitovano[0])
+    }
+    //console.log(maxValue)
     setEditQuestion(true);
   }
 
@@ -203,8 +239,16 @@ const onSetText = (event) => {
       let items = [...questions]
       let item = questionToEdit;
       item.text = questionToEditText;
-      if(type=="Scale")
-        item.answers[0] = maxValue;
+      if(type=="Scale"){
+        let min = minValue
+        let max=maxValue
+        if(min=="")
+          min="0"
+        if(max=="")
+          max="0"  
+        item.answers[0] = min+"-"+max;
+      }
+        
       items[index] = item;
       setQuestions(items)
       console.log("question to edit", item)
@@ -213,7 +257,20 @@ const onSetText = (event) => {
   }
 
   const onClickCreate = async() => {
-    
+    // setDisabled(true);
+    let ima = false;
+    campaigns.map(kampanja=>{
+      if(kampanja.Name==name)
+        ima = true;
+    })
+    if(ima){
+      swal({
+        title: "Fail!",
+        text: "There is already a campaign with that name!",
+        icon: "error"
+      })
+    }
+    else{
       let qs = [];
         let [year1, month1, day1] =  startDate.split('-')
       let start = day1 + "-" + month1 + "-" + year1;
@@ -273,6 +330,8 @@ const onSetText = (event) => {
     } catch(e){
       console.log('TAG-ERROR','FAILED REQUEST AT CreateUser.jsx');
     }
+  }
+    setDisabled(false);
   }
 
   
@@ -451,13 +510,20 @@ const onSetText = (event) => {
                 value={text}
                 onChange={onSetText}
                 />
-                
+      
+      <label className='fa-label'>Min value</label>
+      <InputComponent className='create-fa-button'
+          type='number'
+          value = {minValue}
+          onChange = {onChangeValue2}
+      />
       <label className='fa-label'>Max value</label>
       <InputComponent className='create-fa-button'
           type='number'
           value = {maxValue}
           onChange = {onChangeValue}
       />
+      
       <InputComponent className='create-fa-button'
           type='button'
           onClick={onClickAddQuestionScale}
@@ -529,6 +595,12 @@ const onSetText = (event) => {
         value={questionToEditText}
         onChange={onSetQuestionToEdit}
       />
+      <label className='fa-label'>Min value</label>
+      <InputComponent className='create-fa-button'
+          type='number'
+          value = {minValue}
+          onChange = {onChangeValue2}
+      />
       <label className='fa-label'>Max value</label>
       <InputComponent className='create-fa-button'
           type='number'
@@ -546,6 +618,7 @@ const onSetText = (event) => {
           type='button'
           onClick={onClickCreate}
           value='CREATE'
+          disabled={disabled}
       />}
     </div>
   );

@@ -28,6 +28,7 @@ const optionsList = [
 ];
 
 const QuestionEditView = () => {
+  const imageToBase64 = require('image-to-base64');
   const location=useLocation();
     const dispatch = useDispatch();
     const history = useHistory();
@@ -37,10 +38,15 @@ const QuestionEditView = () => {
     const [current, setCurrent] = useState("");
     const [answers, setAnswers] = useState(location.state.question.QuestionAnswers);
     const id = location.state.id;
-    const [maxValue, setMaxValue] = useState(location.state.question.QuestionAnswers[0]?.Answer?.AnswerText)
+    const [maxValue, setMaxValue] = useState(location.state.question.QuestionAnswers[0]?.Answer?.AnswerText.split("-")[1])
+    const [minValue, setMinValue] = useState(location.state.question.QuestionAnswers[0]?.Answer?.AnswerText.split("-")[0])
     //console.log(location.state.question.QuestionAnswers[0].Answer.AnswerText)
     const [type, setType] = useState(location.state.question.QuestionType);
-    console.log("TYpe", type)
+    const [picture, setPicture] = useState(false);
+    const [url, setUrl] = useState("");
+    const [url2, setUrl2] = useState("");
+    const [prikaz, setPrikaz] = useState(true);
+    
 
     
     
@@ -50,6 +56,11 @@ const QuestionEditView = () => {
 
     const onChangeAnswer = (event) =>{
       setCurrent(event.target.value)
+    }
+
+    const onChangeUrl = (event) => {
+      setUrl(event.target.value)
+      
     }
 
     function getIndexAnswer(value, arr) {
@@ -65,9 +76,25 @@ const QuestionEditView = () => {
     setMaxValue(event.target.value);
   }
 
+  const onChangeValue2 = (event) =>{
+    setMinValue(event.target.value);
+  }
+
+  const checkBoxNesto = (e) => {
+    if(e.target.value=="No Picture")
+      setPicture(false)
+    else if (e.target.value=="Picture")
+      setPicture(true);
+  }
   
 
   const onClickEditScale = async (event)=>{
+    let max = maxValue
+    let min = minValue
+    if(max=="")
+      max="0"
+    if(min=="")
+      min="0"  
     await axiosHelperCall('DELETE', `https://si-projekat2.herokuapp.com/api/answer/`+answers[0].AnswerId, {
       
         }, {}).then(async ()=>{
@@ -75,7 +102,7 @@ const QuestionEditView = () => {
       const { data, status } = await axiosHelperCall('POST', `https://si-projekat2.herokuapp.com/api/answer`, {
         QuestionId : location.state.question.QuestionId,
         Answer:{
-          AnswerText: maxValue,
+          AnswerText: min+"-"+max,
           IsAPicture: false
         }
       }, {});
@@ -116,8 +143,8 @@ const QuestionEditView = () => {
   //RUTA ZA BRISANJE NIJE JOS NAPRAVLJENA ALI KADA BUDE RADIT CE OVAJ POST
     const onDeleteAnswer = async (a) => {
       try{
-        const { data, status } = await axiosHelperCall('DELETE', `https://si-projekat2.herokuapp.com/api/answer/`+a.AnswerId, {
-          AnswerId : a.AnswerId
+        const { data, status } = await axiosHelperCall('DELETE', `https://si-projekat2.herokuapp.com/api/answer/`+a.Answer.AnswerId, {
+          AnswerId : a.Answer.AnswerId
         }, {});
         if(status === 200) {
           swal({
@@ -137,33 +164,98 @@ const QuestionEditView = () => {
       }
     }
 
+    async function toDataUrl(url, callback) {
+      var xhr = new XMLHttpRequest();
+      xhr.onload = function() {
+          var reader = new FileReader();
+          reader.onloadend = function() {
+              callback(reader.result);
+          }
+          reader.readAsDataURL(xhr.response);
+      };
+      xhr.open('GET', url);
+      xhr.responseType = 'blob';
+      xhr.send();
+  }
+
+    const onClickCheck = (event) => {
+      
+      toDataUrl(url, function(myBase64) {
+        setUrl2(myBase64.split(",")[1]) // myBase64 is the base64 string
+        //console.log(myBase64)
+    });
+    setPrikaz(true);
+
+      
+    }
+
+    const onSelectFile = (event) =>{
+      //onSelectFile(event) { // called each time file input changes
+        if (event.target.files && event.target.files[0]) {
+          var reader = new FileReader();
+          
+          reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+          reader.onload = (event) => { // called once readAsDataURL is completed
+            setUrl2(event.target.result.split(",")[1]);
+            setUrl(event.target.result)
+            
+          }
+        }
+    //}
+    }
+
     const onClickAdd = async (event) =>{
+        console.log(picture)
+   
+        let odgovor = {AnswerText: current,
+          IsAPicture: picture,
+        Base64: url2}
+        console.log("odgovor", odgovor)
       try{
         const { data, status } = await axiosHelperCall('POST', `https://si-projekat2.herokuapp.com/api/answer`, {
           QuestionId : location.state.question.QuestionId,
-          Answer:{
-            AnswerText: current,
-            IsAPicture: false
-          }
-        }, {});
+          Answer:odgovor
+        }, {})
+        
         if(status === 200) {
           swal({
             title: "Success!",
             text: "You have successfully added a new answer.",
             icon: "success"
           }).then(value => {
+            console.log("data", data)
             let newAnswer = {
-              Answer : {AnswerText : current}
+              Answer : {
+                AnswerId: data.AnswerId,
+                AnswerText : current,
+                IsAPicture:picture,
+                Base64: url2}
             }
             setAnswers([...answers, newAnswer])
             setCurrent("");
             console.log(answers)
           });
+        //   .then(value => {
+        //     console.log("answers", answers)
+        //      console.log("value", value)
+        //       // let newAnswer = {
+        //       //   AnswerId: value.data.AnswerId,
+        //       //     AnswerText : current,
+        //       //             IsAPicture: picture,
+        //       //           Base64: url2}
+        //       // console.log(newAnswer)
+        //       // setAnswers([...answers, newAnswer])
+        //       // setCurrent("");
+        //       // console.log(answers)
+        //  });
         }
       } catch(e){
         console.log('TAG-ERROR','FAILED REQUEST AT QuestionEditView.jsx');
       }
-      
+      setUrl2("")
+      //setUrl("")
+      setPicture(false)
     }
 
     const onClickEdit = async (event) =>{
@@ -211,6 +303,18 @@ const QuestionEditView = () => {
         value = {current}
         onChange={onChangeAnswer}
       />
+      <select class="form-select" style={{width: "30%", marginTop: "25px", marginLeft: "25px"}} aria-label="Question select" defaultValue="Choose" onChange={checkBoxNesto}>
+            <option>No Picture</option>
+            <option>Picture</option>
+        </select>
+        {picture && <div> 
+          <img src={url} height="200"/> <br/>
+    <input type='file' onChange={onSelectFile}/>
+
+      
+      
+      {/* {prikaz && <div><img src={`${url}`} height="65" style={{ alignSelf: 'center' }}/> {url}</div>} */}
+      </div>}
       <InputComponent className='create-fa-button'
           type='button'
           onClick={onClickAdd}
@@ -220,8 +324,11 @@ const QuestionEditView = () => {
       <table>
             <tbody>
                             {answers.map(a => (
-                                <tr key={a.AnswerId}>
+                                <tr key={a.Answer.AnswerId}>
                                 <td>{a.Answer.AnswerText}</td>
+                                
+                                {a.Answer.Base64&& <td><img src={`data:image/jpeg;base64,${a.Answer?.Base64}`} height="65" /></td>}
+                                {/* <td>{"data:image/png;base64," + a.Answer?.Base64}</td> */}
                                 {currentUser?.uloga === "Admin" && (<td><button 
                                     className='btn btn-link'
                                     onClick={() => onDeleteAnswer(a)}
@@ -241,7 +348,13 @@ const QuestionEditView = () => {
       />
       </div>} */}
 
-      {(location.state.question.QuestionType=="Scale") && <div> 
+      {(location.state.question.QuestionType=="Scale") && <div>
+      <label className='fa-label'>Min value</label>
+      <InputComponent className='create-fa-button'
+          type='number'
+          value = {minValue}
+          onChange = {onChangeValue2}
+      /> 
       <label className='fa-label'>Max value</label>
       <InputComponent className='create-fa-button'
           type='number'

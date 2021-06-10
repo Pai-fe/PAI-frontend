@@ -30,6 +30,22 @@ const Campaigns = () => {
     const history = useHistory();
     const currentUser = useSelector(state => state?.userInfo?.user);
     const camps = useSelector(state => state?.camps?.list);
+    const [search, setSearch] = useState("")
+
+    const sortiraj = (e) => {
+        if(e.target.value == "ID Ascending"){
+            let clone = []
+            clone = [...campaigns]
+            clone = clone.sort((a,b) => a.CamapignId>b.CamapignId ? 1 : -1)  
+            setCampaigns(clone)
+        }
+        else if (e.target.value =="ID Descending"){
+        let clone = []
+        clone = [...campaigns]
+        clone = clone.sort((a,b) => a.CamapignId>b.CamapignId ? -1 : 1)  
+        setCampaigns(clone)
+        }
+    }
 
 
     const onLoad = async () => {
@@ -40,6 +56,8 @@ const Campaigns = () => {
             } = await axiosHelperCall('GET', `https://si-projekat2.herokuapp.com/api/campaign/all`, {}, {});
             if (status !== 200) throw new Error();
 
+            console.log("data", data);
+            data.sort((a,b) => a.CamapignId>b.CamapignId ? 1 : -1)
             console.log("data", data);
             setCampaigns(data);
 
@@ -67,6 +85,10 @@ const Campaigns = () => {
 
     const onExportCampaign = (camp) => {
         history.push(routes.CreateCampaignReport.replace(':id', camp.CamapignId))
+    }
+
+    const onSetSearch = (e) => {
+        setSearch(e.target.value);
     }
 
     const onEditCampaign = async (camp) => {
@@ -98,6 +120,18 @@ const Campaigns = () => {
     }
 
     return (
+        <div>
+            <label className='fa-label'>Sort by </label>
+        <select class="form-select" style={{width: "30%", marginTop: "25px", marginLeft: "25px"}} aria-label="Question select" defaultValue="Choose" onChange={sortiraj}>
+            <option>ID Ascending</option>
+            <option>ID Descending</option>
+        </select>
+        <label className='fa-label'>Search</label>
+      <InputComponent 
+        type="text"
+        value={search}
+        onChange={onSetSearch}
+      />
         <div className='fa-list-view'>
             <table className="table">
                 <thead className="thead-dark">
@@ -112,7 +146,7 @@ const Campaigns = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {campaigns.map(camp => (
+                {campaigns.filter(camp=>camp.Name.includes(search)).map(camp => (
                     <tr key={camp?.CamapignId}>
                         <td>{camp?.CamapignId}</td>
                         <td>{camp?.Name}</td>
@@ -155,6 +189,7 @@ const Campaigns = () => {
                 }}
             >
                 <FaPlus/>CREATE NEW CAMPAIGN</button>)}
+        </div>
         </div>
     );
 }
