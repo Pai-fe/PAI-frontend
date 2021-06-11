@@ -122,7 +122,7 @@ const Campaigns = () => {
     return (
         <div>
             <label className='fa-label'>Sort by </label>
-        <select class="form-select" style={{width: "30%", marginTop: "25px", marginLeft: "25px"}} aria-label="Question select" defaultValue="Choose" onChange={sortiraj}>
+        <select class="form-select" style={{width: "21%", marginTop: "25px", marginLeft: "25px"}} aria-label="Question select" defaultValue="Choose" onChange={sortiraj}>
             <option>ID Ascending</option>
             <option>ID Descending</option>
         </select>
