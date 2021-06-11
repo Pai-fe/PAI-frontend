@@ -254,8 +254,7 @@ const QuestionEditView = () => {
         console.log('TAG-ERROR','FAILED REQUEST AT QuestionEditView.jsx');
       }
       setUrl2("")
-      //setUrl("")
-      setPicture(false)
+      setUrl("")
     }
 
     const onClickEdit = async (event) =>{

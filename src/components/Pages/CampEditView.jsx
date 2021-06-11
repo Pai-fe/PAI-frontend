@@ -49,6 +49,9 @@ const CampEditView = () => {
   const [fas, setFas] = useState([]);
   const [firstTime, setFirstTime] = useState(true)
   const [campaigns, setCampaigns] = React.useState([]);
+  const [picture, setPicture] = useState(false);
+  const [url, setUrl] = useState("");
+  const [url2, setUrl2] = useState("");
 
   useEffect(()=>{
     onLoad();
@@ -149,8 +152,19 @@ const CampEditView = () => {
   }
 
   const onClickAdd = (event) => {
+    if(type=="Single" || type=="Multiple"){
+      let newAnswer = {AnswerText: current, 
+                        IsAPicture: picture,
+                        Base64: url2}
+      setAnswers([...answers, newAnswer])
+      setCurrent("");
+      setUrl2("")    
+      setUrl("")              
+    }
+    else{
     setAnswers([...answers, current])
     setCurrent("");
+    }
   }
 
   function getIndexAnswer(value, arr) {
@@ -299,8 +313,9 @@ const onClickAddQuestion = async () => {
         else {
         answers.map(answer=>{
           ans.push({
-              AnswerText: answer,
-              IsAPicture:false
+              AnswerText: answer.AnswerText,
+              IsAPicture: answer.IsAPicture,
+              Base64: answer.Base64
           });
         })
       }
@@ -381,6 +396,30 @@ const onSetScaleValue2 = (e) =>{
             state: {question:q, id:id}
         })
     }, 1000)      
+  }
+
+  const checkBoxNesto = (e) => {
+    if(e.target.value=="No Picture")
+      setPicture(false)
+    else if (e.target.value=="Picture")
+      setPicture(true);
+      console.log("pixel")
+  }
+
+  const onSelectFile = (event) =>{
+    //onSelectFile(event) { // called each time file input changes
+      if (event.target.files && event.target.files[0]) {
+        var reader = new FileReader();
+        
+        reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+        reader.onload = (event) => { // called once readAsDataURL is completed
+          setUrl2(event.target.result.split(",")[1]);
+          setUrl(event.target.result)
+          
+        }
+      }
+  //}
   }
 
 
@@ -511,6 +550,14 @@ const onSetScaleValue2 = (e) =>{
         name="odgovor"
         onChange={onChangeAnswer}
       />
+      <select class="form-select" style={{width: "30%", marginTop: "25px", marginLeft: "25px"}} aria-label="Question select" defaultValue="Choose" onChange={checkBoxNesto}>
+            <option>No Picture</option>
+            <option>Picture</option>
+        </select>
+        {picture && <div> 
+          <img src={url} height="200"/> <br/>
+    <input type='file' onChange={onSelectFile}/>
+    </div>}
       <InputComponent className='create-fa-button'
           type='button'
           onClick={onClickAdd}
@@ -519,8 +566,9 @@ const onSetScaleValue2 = (e) =>{
       <table>
             <tbody>
                             {answers.map(a => (
-                                <tr key={a}>
-                                <td>{a}</td>
+                                <tr key={a.AnswerText}>
+                                <td>{a.AnswerText}</td>
+                                {a.Base64&& <td><img src={`data:image/jpeg;base64,${a?.Base64}`} height="65" /></td>}
                                 {currentUser?.uloga === "Admin" && (<td><button 
                                     className='btn btn-link'
                                     onClick={() => onDeleteAnswer(a)}

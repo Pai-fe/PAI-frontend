@@ -42,6 +42,9 @@ const CampaignCreateView = () => {
     const [selectedFAs, setSelectedFAs] = useState([]);
     const [disabled, setDisabled] = useState(false);
     const [campaigns, setCampaigns] = React.useState([]);
+    const [picture, setPicture] = useState(false);
+    const [url, setUrl] = useState("");
+    const [url2, setUrl2] = useState("");
 
     const onLoad = async()=>{
         try{
@@ -103,22 +106,27 @@ const CampaignCreateView = () => {
   }
 
   const onClickAdd = (event) => {
+    if(type=="Single" || type=="Multiple"){
+      let newAnswer = {AnswerText: current, 
+                        IsAPicture: picture,
+                        Base64: url2}
+      setAnswers([...answers, newAnswer])
+      setCurrent("");
+      //setPicture(false);
+      setUrl2("")
+      setUrl("")                  
+    }
+    else{
     setAnswers([...answers, current])
     setCurrent("");
+    }
   }
 
 const onSetText = (event) => {
     setText(event.target.value);
   }
 
-  function getIndex(value, arr, prop) {
-    for(var i = 0; i < arr.length; i++) {
-        if(arr[i][prop] === value) {
-            return i;
-        }
-    }
-    return -1; //to handle the case where the value doesn't exist
-    }
+  
 
     const onClickAddQuestionScale = (event) => {
       let min = minValue;
@@ -168,13 +176,26 @@ const onSetText = (event) => {
 
   const onDeleteQuestion = (question)=>{
     let id = getIndex(question.text, questions, 'text')
+    console.log("id", id)
     setIndex(id);
     var array = [...questions]; // make a separate copy of the array
     if (index !== -1) {
-        array.splice(index, 1);
+        array.splice(id, 1);
         setQuestions(array);
   }
   }
+
+  function getIndex(value, arr, prop) {
+    console.log("value", value)
+    console.log("arr", arr)
+    console.log("prop", prop)
+    for(var i = 0; i < arr.length; i++) {
+        if(arr[i][prop] === value) {
+            return i;
+        }
+    }
+    return -1; //to handle the case where the value doesn't exist
+    }
 
   const onSetQuestionToEdit = (event) =>{
      setQuestionToEditText(event.target.value);
@@ -186,8 +207,22 @@ const onSetText = (event) => {
 
   const onClickAddEdit = (event) => {
       let copy = questionToEdit;
+      if(type=="Single" || type=="Multiple"){
+
+        
+        
+          let newAnswer = {AnswerText: current, 
+                            IsAPicture: picture,
+                            Base64: url2}
+          copy.answers = [...copy.answers, newAnswer]
+          setQuestionToEdit(copy)
+          setUrl2("")                  
+          setUrl("")
+      }
+      else{
       copy.answers = [...copy.answers, current]
       setQuestionToEdit(copy)
+      }
       setCurrent("");
   }
 
@@ -207,6 +242,30 @@ const onSetText = (event) => {
         array.splice(id, 1);
         setAnswers(array);
   }
+  }
+
+  const checkBoxNesto = (e) => {
+    if(e.target.value=="No Picture")
+      setPicture(false)
+    else if (e.target.value=="Picture")
+      setPicture(true);
+      console.log("pixel")
+  }
+
+  const onSelectFile = (event) =>{
+    //onSelectFile(event) { // called each time file input changes
+      if (event.target.files && event.target.files[0]) {
+        var reader = new FileReader();
+        
+        reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+        reader.onload = (event) => { // called once readAsDataURL is completed
+          setUrl2(event.target.result.split(",")[1]);
+          setUrl(event.target.result)
+          
+        }
+      }
+  //}
   }
 
   const onAnswerEdit = (a) => {
@@ -278,12 +337,23 @@ const onSetText = (event) => {
       let end = day + "-" + month + "-" + year;
       questions.map(question=>{
         let ans = []
+        if(question.type=="Single" || question.type=="Multiple"){
+          question.answers.map(answer=>{
+            ans.push({
+                AnswerText: answer.AnswerText,
+                IsAPicture: answer.IsAPicture,
+                Base64: answer.Base64
+            });
+          })
+        }
+        else{
         question.answers.map(answer=>{
           ans.push({
               AnswerText: answer,
               IsAPicture:false
           });
         })
+      }
           let newQuestion = {
               QuestionText: question.text,
               QuestionType: question.type,
@@ -466,6 +536,15 @@ const onSetText = (event) => {
         name="odgovor"
         onChange={onChangeAnswer}
       />
+
+<select class="form-select" style={{width: "30%", marginTop: "25px", marginLeft: "25px"}} aria-label="Question select" defaultValue="Choose" onChange={checkBoxNesto}>
+            <option>No Picture</option>
+            <option>Picture</option>
+        </select>
+        {picture && <div> 
+          <img src={url} height="200"/> <br/>
+    <input type='file' onChange={onSelectFile}/>
+    </div>}
       <InputComponent className='create-fa-button'
           type='button'
           onClick={onClickAdd}
@@ -474,8 +553,9 @@ const onSetText = (event) => {
       <table>
             <tbody>
                             {answers.map(a => (
-                                <tr key={a}>
-                                <td>{a}</td>
+                                <tr key={a.AnswerText}>
+                                <td>{a.AnswerText}</td>
+                                {a.Base64&& <td><img src={`data:image/jpeg;base64,${a?.Base64}`} height="65" /></td>}
                                 {currentUser?.uloga === "Admin" && (<td><button 
                                     className='btn btn-link'
                                     onClick={() => onDeleteAnswer(a)}
@@ -547,6 +627,14 @@ const onSetText = (event) => {
         name="odgovor"
         onChange={onChangeAnswer}
       />
+      <select class="form-select" style={{width: "30%", marginTop: "25px", marginLeft: "25px"}} aria-label="Question select" defaultValue="Choose" onChange={checkBoxNesto}>
+            <option>No Picture</option>
+            <option>Picture</option>
+        </select>
+        {picture && <div> 
+          <img src={url} height="200"/> <br/>
+    <input type='file' onChange={onSelectFile}/>
+    </div>}
       <InputComponent className='create-fa-button'
           type='button'
           onClick={onClickAddEdit}
@@ -555,8 +643,9 @@ const onSetText = (event) => {
       <table>
             <tbody>
                             {questionToEdit.answers.map(a => (
-                                <tr key={a}>
-                                <td>{a}</td>
+                                <tr key={a.AnswerText}>
+                                <td>{a.AnswerText}</td>
+                                {a.Base64&& <td><img src={`data:image/jpeg;base64,${a?.Base64}`} height="65" /></td>}
                                 {currentUser?.uloga === "Admin" && (<td><button 
                                     className='btn btn-link'
                                     onClick={() => onAnswerEdit(a)}
