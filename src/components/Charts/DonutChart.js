@@ -2,20 +2,12 @@ import React, { Component } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
 class DonutChart extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            displayTitle: "Average session time (in seconds)",
-            chartData: props.chartData
-        }
-    }
-
     render() {
         return (
             <div className="chart">
                 <Doughnut
                     data={
-                        this.state.chartData}
+                        this.props.chartData}
 
                     height={400}
                     width={400}
@@ -23,8 +15,8 @@ class DonutChart extends Component {
                     options={{
                         maintainAspectRatio: false,
                         title: {
-                            display: this.state.displayTitle,
-                            text: this.state.displayTitle,
+                            display: "Average session time (in seconds)",
+                            text: "Average session time (in seconds)",
                             fontSize: 25
                         },
                     }}

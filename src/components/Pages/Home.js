@@ -35,36 +35,42 @@ let donutChart = {
     ],
 };
 
-let vremena = [{ broj_pitanja : 2, prosjecno_vrijeme : 50 },
-    { broj_pitanja : 3, prosjecno_vrijeme : 62 },
-    { broj_pitanja : 4, prosjecno_vrijeme : 70 },
-    { broj_pitanja : 5, prosjecno_vrijeme : 70 },
-    { broj_pitanja : 6, prosjecno_vrijeme : 70 },
-    { broj_pitanja : 7, prosjecno_vrijeme : 70 },
-    { broj_pitanja : 8, prosjecno_vrijeme : 70 }
-]
-
-let odgovoriPoDanu = [{datum: "21.3.2021", brojOdgovora: 1},
-    {datum: "22.3.2021", brojOdgovora: 2},
-    {datum: "23.3.2021", brojOdgovora: 3},
-    {datum: "24.3.2021", brojOdgovora: 4},
-    {datum: "25.3.2021", brojOdgovora: 3},
-    {datum: "26.3.2021", brojOdgovora: 2},
-    {datum: "27.3.2021", brojOdgovora: 1}]
+function roundFloatString(str, numOfDecimal=2) {
+    return Number(str).toFixed(numOfDecimal)
+}
 
 function setAvgTimesChart(avgTimes) {
+    let newDonutChart = {
+        labels: [],
+        datasets: [
+            {
+                label: "Average session time",
+                data: [],
+                backgroundColor: [
+                    "rgba(75, 192, 192, 0.6)",
+                    "rgba(54, 162, 235, 0.6)",
+                    "rgba(169, 77, 135, 0.6)",
+                    "rgba(97, 178, 89, 0.7)",
+                    "rgba(91, 169, 133, 0.8)",
+                    "rgba(244, 143, 216, 0.7)",
+                    "rgba(210, 28, 102, 0.3)"],
+            },
+        ],
+    }
     console.log(avgTimes)
     avgTimes.forEach((obj) => {
-        donutChart.labels.push(`${obj.broj_pitanja} questions`)
-        donutChart.datasets[0].data.push(obj.prosjecno_vrijeme)
+        console.log(obj)
+        newDonutChart.labels.push(`${obj.ResponseCount} questions`)
+
+        newDonutChart.datasets[0].data.push(roundFloatString(obj.AverageTime))
     })
+    return newDonutChart
 }
 
 export let barchartMaxValue = 10
 
 function setNumOfAnswersChart(numOfAnswers) {
     let newBarChart = {
-
         labels: [],
         datasets:[
             {
@@ -87,18 +93,16 @@ function setNumOfAnswersChart(numOfAnswers) {
     return newBarChart
 }
 
-const ruta = "/api/device/activeNotActive/all"
-
 const deviceEndpoint = "https://si-projekat2.herokuapp.com/api/device/"
 
 function Home() {
     let [numOfActive, setNumOfActive] = useState("-")
     let [numOfInactive, setNumOfInactive] = useState("-")
     let [chartAnswersByDay, setChartAnswersByDay] = useState(barChart)
-    let [avgSessionTimes, setAvgSessionTimes] = useState([])
+    let [chartAvgSessionTimes, setChartAvgSessionTimes] = useState(donutChart)
+    let [noAvgTimesData, setNoAvgTimesData] = useState(true)
 
     useEffect(() => {
-        setAvgTimesChart(vremena)
         axiosHelperCall("GET", deviceEndpoint + "response/count")
             .then((res) => {
                 let data = res.data
@@ -107,11 +111,11 @@ function Home() {
                 console.log(chartData)
                 setChartAnswersByDay(chartData)
             })
-        axiosHelperCall("GET", deviceEndpoint + "activeNotActive/all")
+        axiosHelperCall("GET", deviceEndpoint + "active/all")
             .then((res) => {
                 let data = res.data
-                let active = data.aktivni
-                let inactive = data.neaktivni
+                let active = data.Active
+                let inactive = data.Inactive
                 setNumOfActive(active)
                 setNumOfInactive(inactive)
             })
@@ -120,15 +124,28 @@ function Home() {
                 setNumOfInactive("-")
                 console.log(err)
             })
+        axiosHelperCall("GET", deviceEndpoint + "response/average")
+            .then((res) => {
+                let data = res.data
+                console.log(data)
+                let chartData = setAvgTimesChart(data)
+                console.log(chartData)
+                setChartAvgSessionTimes(chartData)
+                console.log(chartData.labels)
+                if (chartData.labels.length === 0) {
+                    setNoAvgTimesData(true)
+                }
+                else {
+                    setNoAvgTimesData(false)
+                }
+            })
 
     }, [])
 
-    /*
-    * dummy kod
-    * */
+
     return(
         <div className='home'>
-            <div style={{width: "60%", float: "left", marginTop: "24px"}}>
+            <div style={{width: "60%", marginTop: "24px"}}>
                 <div className="upperHalf">
                     <div className="activityDiv">
                         <div className="parHolder" style={{backgroundColor : "#69F0AE"}}>
@@ -147,8 +164,13 @@ function Home() {
                     <BarChart chartData={chartAnswersByDay}/>
                 </div>
             </div>
-            <div style={{width: "40%", float: "left", marginTop: "24px"}}>
-                <DonutChart chartData={donutChart}/>
+            <div style={{width: "40%", marginTop: "24px"}}>
+                {
+                    noAvgTimesData && <h3 style={{textAlign: "center"}}>No data available</h3>
+                }
+                {
+                    !noAvgTimesData && <DonutChart chartData={chartAvgSessionTimes}/>
+                }
             </div>
         </div>
     )

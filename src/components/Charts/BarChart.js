@@ -25,9 +25,8 @@ class BarChart extends Component{
                                 display: true,
                                 ticks: {
                                     beginAtZero: true,
-                                    steps: 20,
-                                    stepValue: 5,
-                                    max: 100
+                                    steps: 10,
+                                    max: barchartMaxValue
                                 }
                             }]
                     }
