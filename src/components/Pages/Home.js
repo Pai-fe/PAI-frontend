@@ -83,12 +83,17 @@ function setNumOfAnswersChart(numOfAnswers) {
     numOfAnswers.forEach((obj) => {
         newBarChart.labels.push(obj.date)
         newBarChart.datasets[0].data.push(obj.responseCount)
-        if (obj.responseCount > barchartMaxValue) {
-            barchartMaxValue = obj.responseCount
+        const responseCount = parseInt(obj.responseCount)
+        if (responseCount > barchartMaxValue) {
+            barchartMaxValue = responseCount
         }
     })
-    if (barchartMaxValue === 0 || barchartMaxValue % 10 !== 0)
+
+    console.log(barchartMaxValue)
+    if (barchartMaxValue === 0 || barchartMaxValue % 10 !== 0) {
         barchartMaxValue = barchartMaxValue + (10 - barchartMaxValue % 10)
+    }
+
 
     return newBarChart
 }
